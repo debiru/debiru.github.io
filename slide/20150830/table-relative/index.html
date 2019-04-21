@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>お前は table-cell に position: relative できなかった人の数を覚えているのか - @debiru</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
+    <link rel="stylesheet" href="lib-reveal/css/reveal.css" />
+    <link rel="stylesheet" href="lib-reveal/css/theme/black.css" id="theme" />
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="lib-reveal/lib/css/zenburn.css" />
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'lib-reveal/css/print/pdf.css' : 'lib-reveal/css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib-reveal/lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides" data-limit-time="300">
+        <section data-time="10">
+          <section>
+            <h1><span class="term">お前は</span> <span class="term">table-cell に position: relative</span> <span class="term">できなかった人の数を覚えているのか</span></h1>
+            <p class="author">Minoru Takai（高井 実）</p>
+            <p class="contact">Contact <a href="https://twitter.com/debiru_R">@debiru</a></p>
+          </section>
+
+          <section>
+            <h2>この資料について</h2>
+            <dl>
+              <dt>発表したイベント</dt>
+              <dd>CSSイベント「Back to Basics」 <a href="http://peatix.com/event/105960">http://peatix.com/event/105960</a></dd>
+
+              <dt>発表日</dt>
+              <dd>2015年8月30日</dd>
+
+              <dt>備考</dt>
+              <dd>LTなので短めにつくっています．<span class="term">スライドは <a href="http://lab.hakim.se/reveal-js/">reveal.js</a> を利用して独自に機能拡張しています．</span></dd>
+            </dl>
+          </section>
+        </section>
+
+        <section data-center="true" data-time="8">
+          <p><em><span class="term">table-cell に</span> <span class="term">position: relative</span> <span class="term">を指定しても、</span><span class="term">子孫の absolute の</span><span class="term">基点にならないよね？</span></em></p>
+        </section>
+
+        <section data-time="7">
+          <h2>そういう記事みたことある！</h2>
+          <ul>
+            <li>(2007/11) <a href="https://web.archive.org/web/20130106122803/http://gyauza.egoism.jp/clip/archives/2007/11/071129-tablepositionrelative">table系にはposition:relativeが効かない | Takazudo Clipping*</a></li>
+            <li>(2012/06) <a href="http://html-five.jp/522/">display:table-cellの留意点（width、min-height、position）</a></li>
+            <li>(2012/12) <a href="http://blog.webcreativepark.net/2012/12/03-144607.html">スマホサイトでtd/th要素へのposition:relativeはダメ！ - to-R</a></li>
+            <li>(2013/05) <a href="http://no1026.com/archives/406">table系にはposition:relativeが効かない – No.1026</a></li>
+            <li>(2013/11) <a href="http://akinov.hatenablog.com/entry/2013/11/26/172218">Firefoxにおいてtable系でposition:relativeが効かない問題 - ノンカフェインであなたにやさしい</a></li>
+            <li>(2013/12) <a href="http://gomocool.net/gomokulog/?p=159">table系タグのposition:relative – gomokulog</a></li>
+            <li>(2014/10) <a href="http://nakagaw.hateblo.jp/entry/2014/10/29/192051">Firefoxでテーブルのthとかtdにはposition:relativeが効かない件 - 主に技術的なことを書くブログ</a></li>
+          </ul>
+        </section>
+
+        <section data-time="10">
+          <h2>table 関連要素って何があるの（7種類！）</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>display</th>
+                <th>element</th>
+                <th>種類</th>
+                <th>#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>table, inline-table</td>
+                <td>table</td>
+                <td>テーブル</td>
+                <td>1</td>
+              </tr>
+              <tr>
+                <td>table-row</td>
+                <td>tr</td>
+                <td>行</td>
+                <td>2</td>
+              </tr>
+              <tr>
+                <td>table-row-group<br />table-header-group<br />table-footer-group</td>
+                <td>tbody<br />thead<br />tfoot</td>
+                <td>行グループ</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>table-column</td>
+                <td>col</td>
+                <td>列</td>
+                <td>4</td>
+              </tr>
+              <tr>
+                <td>table-column-group</td>
+                <td>colgroup</td>
+                <td>列グループ</td>
+                <td>5</td>
+              </tr>
+              <tr>
+                <td>table-cell</td>
+                <td>td, th</td>
+                <td>セル</td>
+                <td>6</td>
+              </tr>
+              <tr>
+                <td>table-caption</td>
+                <td>caption</td>
+                <td>キャプション</td>
+                <td>7</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section data-time="8">
+          <h2>仕様はどうなってるの？</h2>
+          <h3><strong>CSS2 (2.1)</strong> で見るべき箇所は3箇所</h3>
+          <ul>
+            <li>9.3.1 位置決め方式の選択 'position' プロパティ (<a href="http://momdo.s35.xrea.com/web-html-test/spec/CSS21/visuren.html#choose-position">Ja</a> / <a href="http://www.w3.org/TR/CSS2/visuren.html#choose-position">En</a>)</li>
+            <li>9.1.2 包含ブロック (Containing blocks) (<a href="http://momdo.s35.xrea.com/web-html-test/spec/CSS21/visuren.html#containing-block">Ja</a> / <a href="http://www.w3.org/TR/CSS2/visuren.html#containing-block">En</a>)</li>
+            <li>10.1 包含ブロックの定義 (<a href="http://momdo.s35.xrea.com/web-html-test/spec/CSS21/visudet.html#containing-block-details">Ja</a> / <a href="http://www.w3.org/TR/CSS2/visudet.html#containing-block-details">En</a>)</li>
+          </ul>
+        </section>
+
+        <section data-time="16">
+          <div class="body">
+            <h2>9.3.1 'position' プロパティの値の効果 (<a href="http://momdo.s35.xrea.com/web-html-test/spec/CSS21/visuren.html#choose-position">Ja</a> / <a href="http://www.w3.org/TR/CSS2/visuren.html#choose-position">En</a>)</h2>
+            <ul>
+              <li><strong>relative</strong> が適用された要素は、<br />自身の位置の<strong>オフセット</strong>を相対的に変更できる。</li>
+              <li>ただし、「テーブル」を除く、<br />「（6種の）<strong>テーブル関連要素</strong>」にはこの効果は<strong>定義しない</strong>。</li>
+            </ul>
+          </div>
+        </section>
+
+        <section data-time="12">
+          <div class="body">
+            <h2>9.1.2 包含ブロック (Containing blocks) (<a href="http://momdo.s35.xrea.com/web-html-test/spec/CSS21/visuren.html#containing-block">Ja</a> / <a href="http://www.w3.org/TR/CSS2/visuren.html#containing-block">En</a>)</h2>
+            <ul>
+              <li>大抵の要素は、自身のボックスについて、<br /><strong>包含ブロック</strong>を<strong>基点に</strong>して位置が決まる。</li>
+            </ul>
+          </div>
+        </section>
+
+        <section data-time="12">
+          <div class="body">
+            <h2>10.1 包含ブロックの定義 (<a href="http://momdo.s35.xrea.com/web-html-test/spec/CSS21/visudet.html#containing-block-details">Ja</a> / <a href="http://www.w3.org/TR/CSS2/visudet.html#containing-block-details">En</a>)</h2>
+            <ul>
+              <li class="lead">自身の基点となる<strong>包含ブロック</strong>が<strong>どれになるか</strong>というと…</li>
+              <li><strong>自身が absolute</strong> なら、<br />fixed か absolute か <strong>relative</strong> である<strong>最も近い先祖</strong>になる。</li>
+            </ul>
+          </div>
+        </section>
+
+        <section data-time="25">
+          <h2>というわけで仕様によると</h2>
+          <p>relative が適用されると<strong>2つの効果</strong>が得られる</p>
+          <ul>
+            <li><strong>自身の</strong>位置の<strong>オフセット</strong>を相対的に変更できるようになる</li>
+            <li>absolute である<strong>子孫の</strong>要素の位置の<strong>基点</strong>になれる</li>
+            <li class="note">でも6種の<strong>テーブル関連要素</strong>には<strong>効果は未定義</strong>である</li>
+          </ul>
+          <p>この未定義ってオフセット効果だけじゃないの？<br />読み方が悪い？どういうことなの？<br />で、実際どうなのよ。</p>
+        </section>
+
+        <section data-center="true" data-background="img/test_cases.png" data-time="6">
+          <div class="body">
+            <h2>実際の挙動をみてみる</h2>
+            <ul>
+              <li>(1-A) IE で基点<br />(1-B) IE でオフセット</li>
+              <li>(2-A) Chrome / Safari / Opera で基点<br />(2-B) Chrome / Safari / Opera でオフセット</li>
+              <li>(3-A) Firefox で基点<br />(3-B) Firefox でオフセット</li>
+            </ul>
+          </div>
+        </section>
+
+        <section data-time="8">
+          <h2>(1-A) 基点になれる？（IE 8/9/10/11）</h2>
+          <p class="result"><img src="img/ie_1.png" alt="" /></p>
+          <p>table と table-cell と caption が基点になっている</p>
+          <p>（row, row-group は無視される）</p>
+        </section>
+
+        <section data-time="4">
+          <h2>(1-B) オフセットとれる？（IE 8/9/10/11）</h2>
+          <p class="result"><img src="img/ie_2.png" alt="" /></p>
+          <p>table と table-cell と caption がオフセットできている</p>
+          <p>（row, row-group は無視される）</p>
+        </section>
+
+        <section data-time="4">
+          <h2>(2-A) 基点になれる？（Chrome / Sa / Op）</h2>
+          <p class="result"><img src="img/chrome_1.png" alt="" /></p>
+          <p>table と table-cell と caption が基点になっている</p>
+          <p>（row, row-group は無視される）</p>
+        </section>
+
+        <section data-time="4">
+          <h2>(2-B) オフセットとれる？（Chrome / Sa / Op）</h2>
+          <p class="result"><img src="img/chrome_2.png" alt="" /></p>
+          <p>table と table-cell と caption がオフセットできている</p>
+          <p>（row, row-group は無視される）</p>
+        </section>
+
+        <section data-center="true" data-time="3">
+          <p><em>そして Firefox では</em></p>
+        </section>
+
+        <section data-time="5">
+          <h2>(3-A) 基点になれる？（Firefox）</h2>
+          <p class="result"><img src="img/fx9_1.png" alt="" /></p>
+          <p>おい table 仕事しろ</p>
+        </section>
+
+        <section data-time="5">
+          <h2>(3-B) オフセットとれる？（Firefox）</h2>
+          <p class="result"><img src="img/fx9_2.png" alt="" /></p>
+          <p>table のオフセットは効いている</p>
+        </section>
+
+        <section data-time="8">
+          <h2>table-cell に relative 使えない伝説が始まる</h2>
+          <table class="browserResult">
+            <thead>
+              <tr>
+                <th class="browser">ブラウザ</th>
+                <th class="base">基点</th>
+                <th class="offset">オフセット</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IE 8/9/10/11</td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+              </tr>
+              <tr>
+                <td>Chrome, Safari, Opera</td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+              </tr>
+              <tr>
+                <td>Firefox</td>
+                <td></td>
+                <td><i class="table">1</i></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><span class="term"><i class="table">1</i> table</span> /
+            <span class="term"><i class="table-row">2</i> table-row</span> /
+            <span class="term"><i class="table-row-group">3</i> table-row-group</span> /
+            <br /><span class="term"><i class="table-column">4</i> table-column</span> /
+            <span class="term"><i class="table-column-group">5</i> table-column-group</span> /
+            <br /><span class="term"><i class="table-cell">6</i> table-cell</span> /
+            <span class="term"><i class="table-caption">7</i> table-caption</span></p>
+        </section>
+
+        <section data-center="true" data-time="6">
+          <p><em><span class="term">この分かりにくい仕様のせいで、</span><span class="term"><strong>15年近く</strong>もの間、人々を<strong>苦しめる</strong>ことに</span></em></p>
+        </section>
+
+        <section data-time="12">
+          <h2>2000年に2つのバグが Mozilla に報告された</h2>
+          <ul>
+            <li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=35168">Bug 35168</a> - relative positioning of table cells doesn't work<br />
+            バグ報告の内容：「<strong>table-cell にオフセットが効かない</strong>」</li>
+            <li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=63895">Bug 63895</a> - relative/absolute positioned table not abs pos containing block<br />バグ報告の内容：「<strong>table が基点にならない</strong>」</li>
+          </ul>
+        </section>
+
+        <section data-time="10">
+          <h2><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=35168">Bug 35168</a> のレポートの流れ</h2>
+          <ul>
+            <li>「table-cell に relative しても<strong>オフセット</strong>が効かねえええ」</li>
+            <li>『9.3.1 節で table-cell は未定義だから仕方ないんじゃね』</li>
+            <li>「」</li>
+            <li>（そして2012年頃まで放置される）</li>
+            <li>（2012年頃から「これ結局どうなったの」という感じに）</li>
+          </ul>
+        </section>
+
+        <section data-time="16">
+          <h2><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=63895">Bug 63895</a> のレポートの流れ</h2>
+          <ul>
+            <li>実はこのレポートはサマリーが何度か変わっている<br />「table の基点」から「table 関連要素の基点」になる</li>
+            <li><strong>table</strong> への基点問題は <strong>Firefox 10</strong> で修正された（<strong>2011年10月</strong>）
+            <li><strong>table 関連</strong>要素は『未定義だから』と<strong>修正されない</strong></li>
+            <li>「未定義って言っても対応してもいいよねえ…ねえ？」という意見がでるものの、対応される気配がないまま</li>
+          </ul>
+        </section>
+
+        <section data-time="6">
+          <div class="body">
+            <h2>この問題に泣いた人々の数</h2>
+            <p>2000年から2014年頃までに <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=63895">Bug 63895</a> <strong>基点問題</strong>の重複レポートが山のように報告される</p>
+          </div>
+        </section>
+
+        <section data-time="2">
+          <h2>人々の反応 1</h2>
+          <p><img src="img/bug288351_comment-4.png" alt="" /></p>
+          <p><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=288351#c4">2005年のコメント</a>の時点で<span class="term">「なぜこの<strong>大昔</strong>のバグが未だに直ってないのか理解できない」</span></p>
+        </section>
+
+        <section data-time="2">
+          <h2>人々の反応 2</h2>
+          <p><img src="img/bug270741.jpg" alt="" /></p>
+          <p><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=270741">2004年のレポート</a>で<span class="term">「IE と Netscape は Fine なのに Firefox はダメだ」</span>と言われる</p>
+        </section>
+
+        <section data-time="2">
+          <h2>人々の反応 3</h2>
+          <p><img src="img/bug803735_comment-2-3.jpg" alt="" /></p>
+          <p><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=803735">2012年のコメント</a>で<span class="term">「IE7 ですら定義されてるんだぞ」</span><span class="term">「Firefox を除いては、他のブラウザで全て動くのに」</span><span class="term">「この状況をあと何年待てばいいんだ」</span>との声</p>
+        </section>
+
+        <section data-time="2">
+          <h2>人々の反応 4</h2>
+          <p><img src="img/davidwalsh.name.png" alt="" /></p>
+          <p><a href="http://davidwalsh.name/table-cell-position-absolute">2013年の記事</a>。「Firefox で見ると… FML （最悪）だ」<span class="term">「13年前のレポートが未だに修正されていない」</span></p>
+        </section>
+
+        <section data-time="4">
+          <h2>そして2014年</h2>
+          <p>「Firefox はもうこの仕様を見直すことはないんだ」と <span class="term">table-cell + relative</span> 問題を<strong>諦めかけた頃</strong>…</p>
+        </section>
+
+        <section data-time="8">
+          <h2>Firefox 30 （2014年6月）で突然の対応 (A)</h2>
+          <p class="result"><img src="img/fx30_1.png" alt="" /></p>
+          <p>table-row-group, table-row, table-cell が基点に対応</p>
+          <p>（table-caption は対応していない）</p>
+        </section>
+
+        <section data-time="4">
+          <h2>Firefox 30 （2014年6月）で突然の対応 (B)</h2>
+          <p class="result"><img src="img/fx30_2.png" alt="" /></p>
+          <p>しかしオフセットには対応していない</p>
+        </section>
+
+        <section data-center="true" data-time="3">
+          <p><em>Firefox は<strong>更に進化</strong>する</em></p>
+        </section>
+
+        <section data-time="8">
+          <h2>Firefox 37 （2015年3月）での実装 (A)</h2>
+          <p class="result"><img src="img/fx37_1.png" alt="" /></p>
+          <p>table-caption も基点に対応（<strong>全完</strong>）</p>
+        </section>
+
+        <section data-time="10">
+          <h2>Firefox 37 （2015年3月）で実装 (B)</h2>
+          <p class="result"><img src="img/fx37_2.png" alt="" /></p>
+          <p>table-row-group, table-row, table-cell がオフセットに対応</p>
+          <p><strong>ほぼ全完</strong>（table-caption は未対応…これって…）</p>
+        </section>
+
+        <section data-center="true" data-time="5">
+          <p><em>Firefox「<strong>伸び代ですね！</strong>」</em></p>
+        </section>
+
+        <section data-time="7">
+          <h2>table-cell に relative <strong>使える</strong>伝説が始まる</h2>
+          <table class="browserResult">
+            <thead>
+              <tr>
+                <th class="browser">ブラウザ</th>
+                <th class="base">基点</th>
+                <th class="offset">オフセット</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IE 8/9/10/11</td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+              </tr>
+              <tr>
+                <td>Chrome, Safari, Opera</td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+              </tr>
+              <tr>
+                <td>Firefox 37+ （2015年3月）</td>
+                <td><i class="table">1</i>, <i class="table-row">2</i>, <i class="table-row-group">3</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-row">2</i>, <i class="table-row-group">3</i>, <i class="table-cell">6</i></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p><span class="term"><i class="table">1</i> table</span> /
+            <span class="term"><i class="table-row">2</i> table-row</span> /
+            <span class="term"><i class="table-row-group">3</i> table-row-group</span> /
+            <br /><span class="term"><i class="table-column">4</i> table-column</span> /
+            <span class="term"><i class="table-column-group">5</i> table-column-group</span> /
+            <br /><span class="term"><i class="table-cell">6</i> table-cell</span> /
+            <span class="term"><i class="table-caption">7</i> table-caption</span></p>
+        </section>
+
+        <section data-time="25">
+          <div class="body">
+            <h2><a href="http://www.w3.org/TR/css3-positioning/#position-property">CSS3</a> では従来の 9.3.1 節の undefined が消えた</h2>
+            <ul>
+              <li class="lead">relative にすると相対的にオフセットされる。テーブル関連は次の通り。</li>
+              <li>「行グループ」「行」は<strong>オフセットされる</strong>。<span class="term">セルが rowspan しているときは、</span>行に含まれるセルのみがオフセットされる。</li>
+              <li>「列グループ」「列」には<strong>何の効果もない</strong>。</li>
+              <li>「キャプション」「セル」は<strong>オフセットされる</strong>。セルが rowspan / colspan しているときは、そのセル全体がオフセットされる。</li>
+            </ul>
+          </div>
+        </section>
+
+        <section data-time="10">
+          <h2>使える伝説に気付き始めた方々</h2>
+          <ul>
+            <li>(2012/12) <a href="http://blog.webcreativepark.net/2012/12/04-114258.html">CSS3でのposition:relative - to-R</a></li>
+            <li>(2014/05) <a href="https://app.codegrid.net/entry/css-table-3">CSS再入門 - display: tableの活用 3 | CodeGrid</a></li>
+            <li>(2015/03) <a href="http://blog.tohounikureru.com/2015/03/26/position-with-table/">table関連の要素に対するposition:relative;の挙動について調べた - tohounikureru</a></li>
+          </ul>
+          <p>日本語の記事はあまり見つからなかったです</p>
+        </section>
+
+        <section>
+          <h2>終わり</h2>
+          <ul>
+            <li>border-collapse: collapse だと IE / Firefox で border が隠れるとかあります</li>
+            <li>collapse アルゴリズムに問題があるので separate を使うことをおすすめします</li>
+            <li>今回は細かい挙動については話せませんでした。続きは Twitter でどうぞ</li>
+            <li>ブラウザテストに用いた<a href="browser-test/">テストケースはこちら</a>です</li>
+          </ul>
+          <p>Mozilla に15年間苦悩した人々のことを思い出しながら <span class="term">table-cell + relative</span> を活用してください</p>
+          <p>relative の<strong>オフセット</strong>と<strong>基点</strong>の話でした。</p>
+        </section>
+      </div><!-- /.slides -->
+    </div><!-- /.reveal -->
+
+    <script src="js/util.js"></script>
+    <script src="js/pre_main.js"></script>
+    <script src="lib-reveal/lib/js/head.min.js"></script>
+    <script src="lib-reveal/js/reveal.js"></script>
+    <script>
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        width: 1280,                           //@(960) 基準となるスライドの横幅を指定する
+        height: 700,                           //@(700) 基準となるスライドの高さを指定する
+        margin: 0.1,                           //@(0.1) スライドの表示内容の周りの余白を指定する
+        minScale: 0.2,                         //@(0.2) ウィンドウサイズに合わせた自動ズーム率の最小値を指定する
+        maxScale: 1.5,                         //@(1.5) ウィンドウサイズに合わせた自動ズーム率の最大値を指定する
+        controls: true,                        //@(true) 右下にコントローラーを表示する
+        progress: false,                       //@(true) 下部に進捗バーを表示する
+        slideNumber: '#h',                     //@(false) 右下にスライドのページ番号を表示する（https://github.com/hakimel/reveal.js#slide-number）
+        history: true,                         //@(false) スライドの遷移時にブラウザの履歴に残す
+        keyboard: true,                        // (true) キー操作を有効にする
+        keyboardCondition: null,               // (null) キー操作を有効にする条件を返す関数を指定する（返り値が false のときに無効になる）
+        overview: true,                        // (true) "Esc","O" キーでの俯瞰モードを有効にする
+        center: true,                          //@(true) スライドの垂直位置を中央寄せにする
+        touch: true,                           // (true) タッチ操作を有効にする
+        loop: false,                           // (false) スライドをループさせる
+        rtl: false,                            // (false) スライドの進行方向を右から左へ変更する
+        fragments: true,                       // (true) fragments 機能を有効にする (https://github.com/hakimel/reveal.js#fragments)
+        embedded: false,                       // (false) iframe などでの埋め込み表示かどうか（タッチ操作時のイベント発生範囲が変更される）
+        help: true,                            // (true) "?" キーでのキー操作のヘルプ表示を有効にする
+        pause: true,                           // (true) "B","." キーでのブラックアウトを有効にする
+        autoSlide: 0,                          //@(0) 自動スライドの間隔をミリ秒で指定する（0 が指定された場合は自動スライドしない）
+        autoSlideStoppable: true,              //@(true) 左下に自動スライド停止用のボタンを表示する
+        mouseWheel: false,                     // (false) マウスホイール（スクロール）によるスライド遷移を有効にする
+        rollingLinks: false,                   // (false) スライド内のリンクに hover した際の 3D roll エフェクトを有効にする
+        hideAddressBar: true,                  // (true) モバイル端末でアドレスバーを非表示にする
+        previewLinks: false,                   // (false) スライド内のリンクを開く際に iframe を用いてプレビュー表示する
+        postMessage: true,                     // (true) window.postMessage に reveal.js API を渡す
+        postMessageEvents: false,              // (false) 親ウィンドウの postMessage に reveal.js の Dispatches Events を渡す
+        focusBodyOnPageVisibilityChange: true, // (true) 確実にキー操作を受け付けられるようにページ遷移時に body をフォーカスする
+        transition: 'slide',                   //@('slide') スライド遷移時のエフェクト none/fade/slide/convex/concave/zoom を指定する
+        transitionSpeed: 'slow',               //@('default') スライド遷移のスピード default/fast/slow を指定する
+        backgroundTransition: 'slide',         //@('fade') スライド遷移時の背景のエフェクト none/fade/slide/convex/concave/zoom を指定する
+        parallaxBackgroundImage: '',           // ('') Parallax 背景画像を指定する（例 'a.jpg'）
+        parallaxBackgroundSize: '',            // ('') Parallax 背景画像のサイズを指定する（例 '3000px 2000px'）
+        parallaxBackgroundHorizontal: null,    // (null) スライドのステップごとの Parallax 背景画像の水平方向の移動ピクセルを指定する
+        parallaxBackgroundVertical: null,      // (null) スライドのステップごとの Parallax 背景画像の垂直方向の移動ピクセルを指定する
+        viewDistance: 3,                       // (3) 現在のスライドから指定した数値だけ離れたスライドをバックグラウンドで表示する
+        // dependencies: []                    // ([]) 依存するスクリプトを条件付きで読み込むためのリストを記述する
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib-reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } }
+          ,{ src: 'lib-reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+          ,{ src: 'lib-reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
+          ,{ src: 'lib-reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } }
+          // ,{ src: 'lib-reveal/plugin/notes/notes.js', async: true, usage: 'Press the "S" key to open the speaker-notes window.' }
+        ]
+      });
+    </script>
+    <script src="js/post_main.js"></script>
+  </body>
+</html>

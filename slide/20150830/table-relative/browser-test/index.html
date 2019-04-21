@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="css/style.css" />
+<title>table + relative behavior</title>
+</head>
+<body>
+  <div id="readme">
+    <ul>
+      <li>table 要素の構造は全て同じで、position: relative を指定する要素が異なっています
+        <ul>
+          <li>中央のセルの子要素として、赤色の「A」「B」「C」「D」を absolute 配置しています</li>
+          <li>table-caption として、灰色のボックスを置き、その中で黄色の「@」を absolute 配置しています</li>
+        </ul>
+      </li>
+      <li>行ごとのテストケース
+        <ul>
+          <li>Case-1-* は table-collapse: separate 指定</li>
+          <li>Case-2-* は table-collapse: collapse 指定</li>
+          <li>Case-3-* は table-collapse: collapse 指定し、background を付ける要素に background-clip: padding-box を指定</li>
+        </ul>
+      </li>
+      <li>列ごとのテストケース
+        <ul>
+          <li>Case-*-1 は table 関連要素には指定無し</li>
+          <li>Case-*-2 は table に relative 指定</li>
+          <li>Case-*-3 は tbody に relative 指定</li>
+          <li>Case-*-4 は tr に relative 指定</li>
+          <li>Case-*-5 は td に relative 指定</li>
+          <li>Case-*-6 は td に relative 指定し、td の background を外している</li>
+        </ul>
+      </li>
+      <li>上部と下部のテストケース
+        <ul>
+          <li>上部（青ラベル Case-*-*）のテストケースは「子孫の基点」に注目したテストです</li>
+          <li>下部（赤ラベル Case-*-*-EX）のテストケースは「自身のオフセット」に注目したテストです</li>
+        </ul>
+      </li>
+      <li>対応状況（有効なもの）
+        <div class="browserResult">
+          <p>凡例：
+            <span class="term"><i class="table">1</i> table</span> /
+            <span class="term"><i class="table-row">2</i> table-row</span> /
+            <span class="term"><i class="table-row-group">3</i> table-row-group</span> /
+            <span class="term"><i class="table-column">4</i> table-column</span> /
+            <span class="term"><i class="table-column-group">5</i> table-column-group</span> /
+            <span class="term"><i class="table-cell">6</i> table-cell</span> /
+            <span class="term"><i class="table-caption">7</i> table-caption</span></p>
+
+          <table>
+            <thead>
+              <tr>
+                <th class="browser">ブラウザ</th>
+                <th class="base">基点</th>
+                <th class="offset">オフセット</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IE 8/9/10/11</td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+              </tr>
+              <tr>
+                <td>Chrome, Safari, Opera</td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+              </tr>
+              <tr>
+                <td>Firefox ..9</td>
+                <td>なし</td>
+                <td><i class="table">1</i></td>
+              </tr>
+              <tr>
+                <td>Firefox 10..29</td>
+                <td><i class="table">1</i></td>
+                <td><i class="table">1</i></td>
+              </tr>
+              <tr>
+                <td>Firefox 30..36</td>
+                <td><i class="table">1</i>, <i class="table-row">2</i>, <i class="table-row-group">3</i>, <i class="table-cell">6</i></td>
+                <td><i class="table">1</i></td>
+              </tr>
+              <tr>
+                <td>Firefox 37..</td>
+                <td><i class="table">1</i>, <i class="table-row">2</i>, <i class="table-row-group">3</i>, <i class="table-cell">6</i>, <i class="table-caption">7</i></td>
+                <td><i class="table">1</i>, <i class="table-row">2</i>, <i class="table-row-group">3</i>, <i class="table-cell">6</i></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>なお，<span class="term"><i class="table-column">4</i> table-column</span>，<span class="term"><i class="table-column-group">5</i> table-column-group</span> は CSS2 および CSS3 仕様上，有効にはならないとされている．</p>
+        </div>
+      </li>
+      <li>実行結果のキャプチャ（Windows のテストは Mac OS X 上の VirtualBox で <a href="http://dev.modern.ie/tools/vms/#downloads" target="_blank">modern.ie</a> を利用）
+        <ul>
+          <li><a href="img/ie8.png">IE 8</a> (modern.ie IE8 - Win7)</li>
+          <li><a href="img/ie9.png">IE 9</a> (modern.ie IE9 - Win7)</li>
+          <li><a href="img/ie10.png">IE 10</a> (modern.ie IE10 - Win7)</li>
+          <li><a href="img/ie11.png">IE 11</a> (modern.ie IE11 - Win8.1)</li>
+          <li><a href="img/fx9.png">Firefox 9</a> (on modern.ie IE10 - Win7)</li>
+          <li><a href="img/fx10.png">Firefox 10</a> (on modern.ie IE10 - Win7)</li>
+          <li><a href="img/fx29.png">Firefox 29</a> (on modern.ie IE10 - Win7)</li>
+          <li><a href="img/fx30.png">Firefox 30</a> (on modern.ie IE10 - Win7)</li>
+          <li><a href="img/fx36.png">Firefox 36</a> (on modern.ie IE10 - Win7)</li>
+          <li><a href="img/fx37.png">Firefox 37</a> (on modern.ie IE10 - Win7)</li>
+          <li><a href="img/chrome44.png">Chrome 44</a> (on Mac OS X)</li>
+          <li><a href="img/safari6.png">Safari 6</a> (on Mac OS X)</li>
+          <li><a href="img/opera31.png">Opera 31</a> (on Mac OS X)</li>
+          <li><a href="img/firefox40.png">Firefox 40</a> (on Mac OS X)</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div id="main">
+    <div class="container">
+      <div class="group border-separate">
+        <div class="table-wrapper rel-nothing">
+          <table>
+            <caption>[Sep] div</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-table">
+          <table>
+            <caption>[Sep] table</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tbody">
+          <table>
+            <caption>[Sep] tbody</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tr">
+          <table>
+            <caption>[Sep] tr</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td">
+          <table>
+            <caption>[Sep] td</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td no-bg">
+          <table>
+            <caption>[Sep] td no-bg</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="group border-collapse">
+        <div class="table-wrapper rel-nothing">
+          <table>
+            <caption>[Col] div</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-table">
+          <table>
+            <caption>[Col] table</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tbody">
+          <table>
+            <caption>[Col] tbody</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tr">
+          <table>
+            <caption>[Col] tr</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td">
+          <table>
+            <caption>[Col] td</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td no-bg">
+          <table>
+            <caption>[Col] td no-bg</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="group border-collapse background-clip">
+        <div class="table-wrapper rel-nothing">
+          <table>
+            <caption>[Col] div</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-table">
+          <table>
+            <caption>[Col] table</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tbody">
+          <table>
+            <caption>[Col] tbody</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tr">
+          <table>
+            <caption>[Col] tr</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td">
+          <table>
+            <caption>[Col] td</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td no-bg">
+          <table>
+            <caption>[Col] td no-bg</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="container relative-move">
+      <div class="group border-separate">
+        <div class="table-wrapper rel-nothing">
+          <table>
+            <caption>[Sep] div</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-table">
+          <table>
+            <caption>[Sep] table</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tbody">
+          <table>
+            <caption>[Sep] tbody</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tr">
+          <table>
+            <caption>[Sep] tr</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td">
+          <table>
+            <caption>[Sep] td</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td no-bg">
+          <table>
+            <caption>[Sep] td no-bg</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="group border-collapse">
+        <div class="table-wrapper rel-nothing">
+          <table>
+            <caption>[Col] div</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-table">
+          <table>
+            <caption>[Col] table</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tbody">
+          <table>
+            <caption>[Col] tbody</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tr">
+          <table>
+            <caption>[Col] tr</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td">
+          <table>
+            <caption>[Col] td</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td no-bg">
+          <table>
+            <caption>[Col] td no-bg</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="group border-collapse background-clip">
+        <div class="table-wrapper rel-nothing">
+          <table>
+            <caption>[Col] div</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-table">
+          <table>
+            <caption>[Col] table</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tbody">
+          <table>
+            <caption>[Col] tbody</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-tr">
+          <table>
+            <caption>[Col] tr</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td">
+          <table>
+            <caption>[Col] td</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-wrapper rel-td no-bg">
+          <table>
+            <caption>[Col] td no-bg</caption>
+            <thead><tr><th>H01</th><th>H02</th><th>H03</th></tr></thead>
+            <tfoot><tr><th>F01</th><th>F02</th><th>F03</th></tr></tfoot>
+            <tbody>
+              <tr><td>1</td><td>2</td><td>3</td></tr>
+              <tr class="the-row">
+                <td>4</td>
+                <td class="the-cell">5<i class="a">A</i><i class="b">B</i><i class="c">C</i><i class="d">D</i></td>
+                <td>6</td>
+              </tr>
+              <tr><td>7</td><td>8</td><td>9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

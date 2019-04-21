@@ -1,0 +1,227 @@
+body {
+  min-width: 1304px;
+  background: #222;
+  font-family: Monaco, monospace;
+  font-size: 14px;
+}
+
+#readme {
+  overflow: hidden;
+  margin: 10px;
+  padding: 10px;
+  border: #999;
+  background: #333;
+  color: #fff;
+  line-height: 1.3;
+}
+#readme a {
+  color: #0cf;
+}
+#readme a:hover {
+  color: #6ff;
+}
+#readme ul {
+  list-style: outside disc;
+  margin-left: 30px;
+}
+#readme ul li {
+  margin: 2px 0;
+}
+#readme > ul > li {
+  margin: 16px 0;
+}
+#readme .browserResult table {
+  border-collapse: separate;
+  margin: 10px;
+  border-width: 1px 0 0 1px;
+}
+#readme .browserResult table, #readme .browserResult th, #readme .browserResult td {
+  border-style: solid;
+  border-color: #999;
+}
+#readme .browserResult th, #readme .browserResult td {
+  padding: 10px;
+  border-width: 0 1px 1px 0;
+}
+#readme .browserResult th {
+  text-align: center;
+  font-weight: bold;
+}
+#readme .browserResult p {
+  margin: 20px;
+}
+#readme .browserResult i {
+  display: inline-block;
+  padding: 6px;
+  line-height: 1.1;
+  text-align: center;
+  font-size: 16tpx;
+}
+#readme .browserResult i.table {
+  background: #009;
+}
+#readme .browserResult i.table-row {
+  background: #c60;
+}
+#readme .browserResult i.table-row-group {
+  background: #c06;
+}
+#readme .browserResult i.table-column {
+  background: #60c;
+}
+#readme .browserResult i.table-column-group {
+  background: #06c;
+}
+#readme .browserResult i.table-cell {
+  background: #900;
+}
+#readme .browserResult i.table-caption {
+  background: #090;
+}
+
+#main .container {
+  overflow: hidden;
+  padding-bottom: 40px;
+  font-size: 0;
+}
+#main .table-wrapper {
+  display: inline-block;
+  position: relative;
+  margin: 40px 0 0 20px;
+  padding: 20px;
+  font-size: 14px;
+}
+#main caption {
+  caption-side: bottom;
+  margin-top: 10px;
+  padding: 10px;
+  text-align: center;
+}
+#main caption:before, #main caption:after {
+  content: "@";
+  position: absolute;
+  top: 50%;
+  margin-top: -11px;
+  padding: 4px;
+}
+#main caption:before {
+  left: 0;
+}
+#main caption:after {
+  right: 0;
+}
+#main td {
+  width: 50px;
+  height: 50px;
+}
+#main th {
+  padding: 4px 0;
+}
+#main th, #main td {
+  text-align: center;
+  vertical-align: middle;
+}
+#main .the-cell i {
+  position: absolute;
+  padding: 4px;
+  color: #fff;
+}
+#main .the-cell i.a {
+  top: 0;
+  left: 0;
+}
+#main .the-cell i.b {
+  top: 0;
+  right: 0;
+}
+#main .the-cell i.c {
+  bottom: 0;
+  right: 0;
+}
+#main .the-cell i.d {
+  bottom: 0;
+  left: 0;
+}
+#main div.table-wrapper {
+  background: #fff;
+}
+#main caption {
+  background: #ccc;
+}
+#main table {
+  background: #fcc;
+}
+#main tbody {
+  background: #ccf;
+}
+#main tr.the-row {
+  background: #cfc;
+}
+#main td.the-cell {
+  background: #f9f;
+}
+#main td.the-cell i {
+  background: #f00;
+}
+#main caption:before, #main caption:after {
+  background: #ff0;
+}
+#main th, #main td {
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: #000;
+}
+#main table {
+  border-width: 1px 0 0 1px;
+  border-style: solid;
+  border-color: #000;
+}
+#main .no-bg .the-cell {
+  background: none !important;
+}
+#main .border-separate table {
+  border-collapse: separate;
+}
+#main .border-collapse table {
+  border-collapse: collapse;
+}
+#main .background-clip * {
+  background-clip: padding-box !important;
+}
+#main caption,
+#main .rel-table table,
+#main .rel-tbody tbody,
+#main .rel-tr tr.the-row,
+#main .rel-td td.the-cell {
+  position: relative;
+}
+#main .relative-move caption, #main .relative-move .rel-table table, #main .relative-move .rel-tbody tbody, #main .relative-move .rel-tr tr.the-row, #main .relative-move .rel-td td.the-cell {
+  top: -10px;
+  left: -10px;
+}
+#main .relative-move .table-wrapper:before {
+  content: "Case-#" counter(group-id) "-" counter(case-id) "-EX";
+  background: #f90;
+}
+#main .group {
+  counter-increment: group-id;
+}
+#main .table-wrapper:before, #main .table-wrapper:after {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  color: #000;
+  text-align: center;
+}
+#main .table-wrapper {
+  counter-increment: case-id;
+}
+#main .table-wrapper:before {
+  content: "Case-#" counter(group-id) "-" counter(case-id);
+  bottom: 100%;
+  padding: 4px;
+  background: #0ff;
+}
+#main .table-wrapper:after {
+  bottom: 0;
+}

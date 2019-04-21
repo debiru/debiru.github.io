@@ -1,0 +1,208 @@
+body {
+  min-width: 1304px;
+  background: #222;
+  font-family: Monaco, monospace;
+  font-size: 14px;
+}
+#readme {
+  overflow: hidden;
+  margin: 10px;
+  padding: 10px;
+  border: #999;
+  background: #333;
+  color: #fff;
+  line-height: 1.3;
+
+  a {
+    color: #0cf;
+
+    &:hover {
+      color: #6ff;
+    }
+  }
+  ul {
+    list-style: outside disc;
+    margin-left: 30px;
+
+    li {
+      margin: 2px 0;
+    }
+  }
+  > ul {
+    > li {
+      margin: 16px 0;
+    }
+  }
+  .browserResult {
+
+    table {
+      border-collapse: separate;
+      margin: 10px;
+      border-width: 1px 0 0 1px;
+    }
+    table, th, td {
+      border-style: solid;
+      border-color: #999;
+    }
+    th, td {
+      padding: 10px;
+      border-width: 0 1px 1px 0;
+    }
+    th {
+      text-align: center;
+      font-weight: bold;
+    }
+    p {
+      margin: 20px;
+    }
+    i {
+      display: inline-block;
+      padding: 6px;
+      line-height: 1.1;
+      text-align: center;
+      font-size: 16tpx;
+
+      &.table              { background: #009; } // 1
+      &.table-row          { background: #c60; } // 2
+      &.table-row-group    { background: #c06; } // 3
+      &.table-column       { background: #60c; } // 4
+      &.table-column-group { background: #06c; } // 5
+      &.table-cell         { background: #900; } // 6
+      &.table-caption      { background: #090; } // 7
+    }
+  }
+}
+#main {
+  .container {
+    overflow: hidden;
+    padding-bottom: 40px;
+    font-size: 0;
+  }
+  .table-wrapper {
+    display: inline-block;
+    position: relative;
+    margin: 40px 0 0 20px;
+    padding: 20px;
+    font-size: 14px;
+  }
+  caption {
+    caption-side: bottom;
+    margin-top: 10px;
+    padding: 10px;
+    text-align: center;
+
+    &:before,
+    &:after {
+      content: "@";
+      position: absolute;
+      top: 50%;
+      margin-top: -11px;
+      padding: 4px;
+    }
+    &:before {
+      left: 0;
+    }
+    &:after {
+      right: 0;
+    }
+  }
+  td {
+    width: 50px;
+    height: 50px;
+  }
+  th {
+    padding: 4px 0;
+  }
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .the-cell i {
+    position: absolute;
+    padding: 4px;
+    color: #fff;
+  }
+  .the-cell i.a {    top: 0;  left: 0; } // 左上
+  .the-cell i.b {    top: 0; right: 0; } // 右上
+  .the-cell i.c { bottom: 0; right: 0; } // 右下
+  .the-cell i.d { bottom: 0;  left: 0; } // 左下
+
+  div.table-wrapper { background: #fff; } // 白
+  caption { background: #ccc; } // 灰
+  table { background: #fcc; } // 薄赤
+  tbody { background: #ccf; } // 薄青
+  tr.the-row { background: #cfc; } // 薄緑
+  td.the-cell { background: #f9f; } // 薄紫
+  td.the-cell i { background: #f00; } // 赤
+  caption {
+    &:before, &:after { background: #ff0; } // 黃
+  }
+  $bw: 1px;
+  th, td {
+    border-width: 0 $bw $bw 0;
+    border-style: solid;
+    border-color: #000;
+  }
+  table {
+    border-width: $bw 0 0 $bw;
+    border-style: solid;
+    border-color: #000;
+  }
+  //th, td { border-width: $bw / 2; } table { border-width: 0; }
+  //th, td { border-width: $bw 0 0 $bw; } table { border-width: 0 $bw $bw 0; }
+
+  .no-bg {
+    .the-cell {
+      background: none !important;
+    }
+  }
+  .border-separate table { border-collapse: separate; }
+  .border-collapse table { border-collapse: collapse; }
+  .background-clip * { background-clip: padding-box !important; }
+  caption,
+  .rel-table table,
+  .rel-tbody tbody,
+  .rel-tr tr.the-row,
+  .rel-td td.the-cell {
+    position: relative;
+
+    @at-root #{selector-replace(&, "#main", "#main .relative-move")} {
+      top: -10px;
+      left: -10px;
+    }
+  }
+  .relative-move {
+    .table-wrapper {
+      &:before {
+        content: "Case-#" counter(group-id) "-" counter(case-id) "-EX";
+        background: #f90;
+      }
+    }
+  }
+
+  .group {
+    counter-increment: group-id;
+  }
+  .table-wrapper {
+    &:before,
+    &:after {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      color: #000;
+      text-align: center;
+    }
+    & {
+      counter-increment: case-id;
+    }
+    &:before {
+      content: "Case-#" counter(group-id) "-" counter(case-id);
+      bottom: 100%;
+      padding: 4px;
+      background: #0ff;
+    }
+    &:after {
+      bottom: 0;
+    }
+  }
+}
