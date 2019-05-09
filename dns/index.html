@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Introduction to DNS - 浸透いうな</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<div id="page-container">
+  <header id="page-header">
+    <h1 class="heading">Introduction to DNS - <span class="term">浸透いうな</span></h1>
+    <div class="misc">
+      <p class="author">Author: <a href="https://twitter.com/debiru_R" target="_blank">@debiru_R</a></p>
+      <p class="revision">公開：2019年5月10日</p>
+      <p class="nav-footer"><a href="#page-footer">ページ最下部を見る</a></p>
+    </div>
+    <div class="desc">
+      <p class="lead"><span class="term">浸透待ちをしてしまうのは、</span><span class="term">あなたのせいではありません。</span></p>
+      <p class="keywords">キーワード：<strong>DNS</strong> / <strong>サーバ移転</strong> / <strong>浸透(penetration)</strong> / <strong>伝播/伝搬(propagation)</strong> / <strong>反映</strong> / <strong>浸透待ち</strong></p>
+      <div class="listBlock">
+        <ul>
+          <li>サービス事業者が、「DNSの浸透を待つ必要がある」という<a href="http://www.e-ontap.com/dns/propagation/hosting_faq.html" target="_blank">間違った説明</a>をしている。</li>
+          <li>利用者が、不適切な設定手順や間違った確認方法をブログなどで公開している。<a href="https://sys-guard.com/post-15734/" target="_blank">DNS浸透チェッカー</a>なるものまで存在する。</li>
+          <li>DNSの仕組み上、<a href="https://ja.wikipedia.org/wiki/CAP%E5%AE%9A%E7%90%86" target="_blank">CAP定理</a>においてDNSは「一貫性」を犠牲にしている。常に最新の情報が得られることは保証していない。</li>
+          <li>DNSキャッシュサーバが、リバースキャッシュではなくフォワードキャッシュであるため、好きなタイミングで能動的にキャッシュクリアを行えない。
+            <ul class="note">
+              <li>フォワードキャッシュ：リクエストする側（クライアントサイド）に保持されるキャッシュ。</li>
+              <li>リバースキャッシュ：レスポンスする側（サーバサイド）に保持されるキャッシュ。</li>
+            </ul>
+          </li>
+          <li><a href="https://twitter.com/debiru_R/status/1104815439715028992" target="_blank">「浸透と言ってしまうのは、DNSが悪い」</a>という私の意見。</li>
+        </ul>
+      </div>
+    </div>
+    <hr />
+    <div class="poem">
+      <p><span class="term">Webサイトの開発に携わったことのある人は<strong>「ドメイン名を登録」</strong>して<strong>「DNSレコードを設定」</strong>したことがあるかもしれません。</span></p>
+      <p><span class="term">DNSに触れる機会があっても、その仕組みを理解するきっかけがなければ<strong>「浸透待ち」</strong>をしてしまうのは仕方がありません。</span></p>
+      <p><span class="term">多くのサービス事業者が<strong>「浸透を待て」</strong>と言っているのですから。</span></p>
+      <p><span class="term">しかし、浸透を待っていてはいけません。それはあなたが<strong>「無知のままでいる」</strong>ことを意味します。</span></p>
+      <p><span class="term">この文章を書いている私も、学ぶ<strong>「きっかけ」</strong>に出会う前は「浸透」を待っていました。</span></p>
+      <p><span class="term"><strong>「浸透いうな」</strong>に<a href="https://twitter.com/debiru_R/status/1118575193067147264" target="_blank">ふぁぼられたあの日</a>を境に、私はDNSを理解し始めました。</span></p>
+      <p><span class="term">この文書が、あなたにとっての<strong>「あの日」</strong>になることを願って、この文書を公開します。2019年5月某日。</span></p>
+    </div>
+    <hr />
+  </header>
+  <main id="page-main">
+    <section id="dns-important-points">
+      <h2 class="heading"><a class="section-anchor" href="#dns-important-points" title="長すぎて読む気がおきない人へ">¶</a><abbr title="Too Long; Didn't Read（長すぎて読む気がおきない）">TL;DR</abbr>：DNSを触る際の重要なポイント</h2>
+      <div class="desc">
+        <p>長すぎて読む気が起きない人へ。DNS七箇条。</p>
+        <ol>
+          <li>浸透の完了は存在しない。<strong>（浸透した/していないように見えるのは、あなただけ）</strong></li>
+          <li>浸透待ちの正体はフォワードキャッシュの残骸。<strong>（TTLが尽きていないDNS応答のキャッシュ）</strong></li>
+          <li>DNSレコードを変えてから浸透を待つな。<strong>（時すでに遅し、打つ手なし）</strong></li>
+          <li>新しいDNSレコード設定時にはURLにアクセスするな。<strong>（ネガティブキャッシュが生成される）</strong></li>
+          <li>浸透時間と思っているものは、DNSレコードを変える前に操作できる。<strong>（DNSレコードを変える前に、TTLを短くすべし）</strong></li>
+          <li>DNSサーバ移転には気をつけろ。TTLの変更と同様に、肝心なのは事前作業。<strong>（NS移転とA移転を同時にやるな）</strong></li>
+          <li>浸透いうな。<strong>（浸透を待てと言っている人に騙されるな）</strong></li>
+        </ul>
+        <div class="short-version">
+          <p class="label">140文字バージョン：<a href="https://twitter.com/intent/tweet?text=DNS%E4%B8%83%E7%AE%87%E6%9D%A1%20https%3A%2F%2Fdebiru.net%2Fdns%2F%0A%E3%80%90%E4%B8%80%E3%80%91%E6%B5%B8%E9%80%8F%E3%81%99%E3%82%8B%E3%81%AE%E3%81%AF%E3%81%82%E3%81%AA%E3%81%9F%E3%81%A0%E3%81%91%E3%80%82%0A%E3%80%90%E4%BA%8C%E3%80%91%E6%B5%B8%E9%80%8F%E5%BE%85%E3%81%A1%E3%81%AE%E6%AD%A3%E4%BD%93%E3%81%AF%E3%82%AD%E3%83%A3%E3%83%83%E3%82%B7%E3%83%A5%E3%80%82%0A%E3%80%90%E4%B8%89%E3%80%91%E6%B5%B8%E9%80%8F%E3%82%92%E5%BE%85%E3%81%A3%E3%81%9F%E3%82%89%E6%99%82%E3%81%99%E3%81%A7%E3%81%AB%E9%81%85%E3%81%97%E3%80%82%0A%E3%80%90%E5%9B%9B%E3%80%91%E7%84%A1%E9%97%87%E3%81%ABURL%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%99%E3%82%8B%E3%81%AA%E3%80%82%0A%E3%80%90%E4%BA%94%E3%80%91%E6%B5%B8%E9%80%8F%E3%82%92%E5%BE%85%E3%81%A4%E5%89%8D%E3%81%ABTTL%E5%A4%89%E6%9B%B4%E3%80%82%0A%E3%80%90%E5%85%AD%E3%80%91%E7%A7%BB%E8%BB%A2%E6%99%82%E3%81%AFNS%E7%A7%BB%E8%BB%A2%E3%81%A8A%E7%A7%BB%E8%BB%A2%E3%82%92%E5%88%A5%E3%80%85%E3%81%AB%E3%80%82%0A%E3%80%90%E4%B8%83%E3%80%91%E6%B5%B8%E9%80%8F%E3%81%84%E3%81%86%E3%81%AA%E3%81%AE%E7%9C%9F%E3%81%AE%E6%84%8F%E5%91%B3%E3%81%AB%E6%B0%97%E4%BB%98%E3%81%91%E3%80%82" target="_blank">ツイートする</a></p>
+<pre>
+DNS七箇条 https://debiru.net/dns/
+【一】浸透するのはあなただけ。
+【二】浸透待ちの正体はキャッシュ。
+【三】浸透を待ったら時すでに遅し。
+【四】無闇にURLにアクセスするな。
+【五】浸透を待つ前にTTL変更。
+【六】移転時はNS移転とA移転を別々に。
+【七】浸透いうなの真の意味に気付け。
+</pre>
+        </div>
+        <p>きちんとした説明は、以下の「第二弾」で扱う予定。</p>
+      </div>
+    </section>
+    <hr />
+    <div class="overview">
+      <p>以下では、作っている本人も分かりづらいと感じている図を使いながら、複雑そうなDNSの仕組みを、少しでも正しく理解するためのきっかけになればと思いながら解説していきます。</p>
+      <div class="listBlock">
+        <ul>
+          <li><a href="#dns-mechanism">第一弾：DNSの仕組みを理解する</a>
+            <ul>
+              <li><a href="#dns-mechanism-zone">1章. hostsファイルとDNS：ゾーンという概念</a></li>
+              <li><a href="#dns-mechanism-registration">2章. ドメイン名の登録</a></li>
+              <li><a href="#dns-mechanism-resolver">3章. ドメイン名からIPアドレスを調べる：名前解決</a></li>
+              <li><a href="#dns-mechanism-cache-server">4章. フルリゾルバは得られた応答をキャッシュする：DNSキャッシュサーバ</a></li>
+              <li><a href="#dns-mechanism-no-answer">5章. 情報が存在しない場合の名前解決の結果</a></li>
+              <li><a href="#dns-mechanism-negative-cache">6章. 情報が存在しないという応答もキャッシュする：ネガティブキャッシュ</a></li>
+            </ul>
+          </li>
+          <li>第二弾：適切なDNSレコードの設定手順と確認方法（2019年6月公開予定）</li>
+          <li>第三弾：DNS移転シミュレーター（2019年8月公開予定）</li>
+        </ul>
+      </div>
+    </div>
+    <section id="dns-mechanism">
+      <h2 class="heading"><a class="section-anchor" href="#dns-mechanism" title="DNSの仕組みを理解する">¶</a>第一弾：DNSの仕組みを理解する</h2>
+      <div class="subSections">
+        <section id="dns-mechanism-zone">
+          <h3 class="heading"><a class="section-anchor" href="#dns-mechanism-zone" title="hostsファイルとDNS：ゾーンという概念">¶</a>1章. hostsファイルとDNS：ゾーンという概念</h3>
+          <figure>
+            <p class="object"><img src="img/dns-mechanism-zone.png" alt="" /></p>
+            <figcaption><a href="img/dns-mechanism-zone.png" target="_blank">図1「hostsファイルとDNS：ゾーンという概念」（<span class="link">別ウィンドウで開く</span>）</a></figcaption>
+          </figure>
+          <div class="desc">
+            <p><strong>ドメイン名</strong>に対応する<strong>IPアドレス</strong>を知りたい。それが分かるような対応表（hostsファイル）を共有すればいい時期もありました。</p>
+            <p>使われるドメイン名が増えると、その対応表を更新することが困難になりました。ひとつの巨大なhostsファイルを管理することは現実的ではないのです。</p>
+            <p>そこで<strong>「DNS (Domain Name System)」</strong>という仕組みが登場しました。</p>
+            <p>DNSでは、ドメイン名に関する情報を一元管理せずに、管理者（DNSレコード管理サーバー）を階層的に分散させる仕組みになっています。</p>
+            <p><strong>twitter.com</strong> を例にすると、そのドメイン名とサブドメイン（子孫ドメイン名）は <strong>*.ns.twtrdns.net</strong> というサーバで管理することができて、その場合は親のドメイン名（<strong>com</strong>）を管理するサーバ（<strong>*.gtld-servers.net</strong>）は<strong>「twitter.com のIPアドレスなどのDNSレコードを知らない」</strong>ことになります。</p>
+            <p>comを管理するサーバからすれば、twitter.comの情報は<strong>「別のサーバに管理を任せた」</strong>ということになります。これが<strong>「委任」</strong>です。管理を任せる範囲を<strong>「ゾーン」</strong>と呼びます。つまり、上記の例では <strong>*.ns.twtrdns.net</strong> というサーバは<strong>「twitter.com ゾーン」</strong>を管理しています。</p>
+            <div class="note">
+              <ul>
+                <li>DNSの情報を管理するサーバのことを<strong>「ゾーンサーバ」</strong>と言います。<strong>「権威DNSサーバ」</strong>や<strong>「DNSコンテンツサーバ」</strong>と呼ばれることもあります。</li>
+                <li>他にも種類があるため、単に「DNSサーバ」と呼ぶと混乱を招くことがあります（後述するセクションで登場する<strong>「DNSキャッシュサーバ」</strong>があります）。</li>
+              </ul>
+            </div>
+            <p>ドメイン名の管理を階層的に分散させることで、何万もあるドメイン名に関する情報を現実的に管理できるようになっています。</p>
+            <div class="infoBlock">
+              <p>ドメイン名の階層的に管理の分散は、<strong>市区町村役所</strong>における<strong>住民登録</strong>と似ています。</p>
+              <p>hostsファイルの考え方では、<strong>日本国政府</strong>が日本国民全員を把握して管理する必要があります。一方で、DNSの考え方では、<strong>日本国政府</strong>は日本国民を把握する必要はなく、東京都民であれば<strong>東京都庁</strong>に管理を委任します。</p>
+              <p>このとき、<strong>東京都庁</strong>が東京都民全員を管理してもよいのですが、市区町村で更に管理を分割したいと思えば、渋谷区民の情報は<strong>渋谷区役所</strong>に委任します。この場合、渋谷区民の「ある人」が「どこに住んでいるか」という情報（ドメイン名とIPアドレスの関係）は、<strong>渋谷区役所</strong>しか知りません。政府や都庁は、下部組織に委任した以上、自身では情報を管理しないのです。</p>
+              <p>正確には、<strong>「委任をした範囲（ゾーン）の子孫情報は管理できない」</strong>ということになります。</p>
+              <p>政府や都庁が、ある国民の情報を管理することはできます。政府が「東京都民の情報は東京都庁に委任するけれど、沖縄県民の情報は政府自身で管理する」こともできますし、東京都庁が「渋谷区民の情報は渋谷区役所に委任するけれど、調布市民の情報は都庁自身で管理する」ことができます。</p>
+              <p>できないのは、政府が「東京都民の情報は東京都庁に委任するけれど、世田谷区民の情報は政府自身で管理する」という<strong>「委任した子孫に手を出すこと」</strong>です。それはできません（実際に設定しても委任が優先されるため無視されます）。これが<strong>「階層的な分散（DNSがツリー構造であること）」</strong>を意味します。</p>
+            </div>
+          </div>
+        </section>
+        <section id="dns-mechanism-registration">
+          <h3 class="heading"><a class="section-anchor" href="#dns-mechanism-registration" title="ドメイン名の登録">¶</a>2章. ドメイン名の登録</h3>
+          <figure>
+            <p class="object"><img src="img/dns-mechanism-registration.png" alt="" /></p>
+            <figcaption><a href="img/dns-mechanism-registration.png" target="_blank">図2「ドメイン名の登録」（<span class="link">別ウィンドウで開く</span>）</a></figcaption>
+          </figure>
+          <div class="desc">
+            <p>この図、ごちゃごちゃしているように見えるでしょうか？実際、ごちゃごちゃしているかもしれません。作っている私が見てもそう思います。</p>
+            <p>次のセクションの説明で図を共通化するために要素を書き出しているので、このセクションでは<strong>「赤線の部分」</strong>に注目してみてください。</p>
+            <p><strong>debiru.net</strong> というドメイン名を登録して、さらにDNSレコードを設定する手順を確認します。</p>
+            <p>次の4つの概念に注目してください。</p>
+            <ul>
+              <li>登録者（ドメイン名レジストラント）：利用者（あなた）のこと</li>
+              <li>ドメイン名レジストラ（登録する側）：「Route 53」や「お名前.com」など</li>
+              <li>ドメイン名レジストリ（登録される側）：「JPRS」や「VeriSign」など</li>
+              <li>ゾーンサーバ（DNSレコードを管理する場所）</li>
+            </ul>
+            <div class="stepsBlock">
+              <ol>
+                <li><strong>登録者</strong>は、（AWS Route 53 のような）ドメイン名レジストラに登録申請を行う。</li>
+                <li><strong>ドメイン名レジストラ</strong>は、専用のシステム（Shared Registry System）を介して、申請されたドメイン名の空きを確認してドメイン名レジストリに登録を行う。</li>
+                <li><strong>ドメイン名レジストリ</strong>は、自身が管理するゾーンサーバに<strong>「debiru.net の NS レコード」</strong>を追加する。このゾーンサーバを「委任元」と呼ぶ。</li>
+                <li>登録者は、（DNSゾーン管理サービスを用いて）<strong>ゾーンサーバにDNSレコードを設定</strong>する。</li>
+                <li>ゾーンサーバに設定内容が反映される。</li>
+              </ol>
+            </div>
+            <div class="infoBlock">
+              <p><strong>「あなた」</strong>は<strong>「ドメイン名レジストラ」</strong>にログインして「ドメイン名の管理」を行います。そして、そのドメイン名に対する「DNSレコード設定」を行います。</p>
+              <ul>
+                <li>ドメイン名の登録</li>
+                <li>委任元NSレコードの登録（レジストリのゾーンサーバ）</li>
+                <li>DNSレコードの設定（委任先のゾーンサーバ）</li>
+              </ul>
+              <p>この3つの操作を行うことで、登録したドメイン名 <strong>debiru.net</strong> の DNS レコードを設定できるようになります。</p>
+              <p><strong>「(3) 委任元NSレコードの登録」</strong>は「ネームサーバの設定」と呼ばれることもあります。<strong>debiru.net</strong> のDNSレコードを「どこのゾーンサーバで管理しているのか」を「親（委任元）のゾーンサーバ」に教えています。</p>
+              <p><strong>「(5) 委任先ゾーンサーバへの反映」</strong>では、DNSレコードの設定操作をした後、実際にゾーンサーバへ設定値が反映されるまでに<strong>「数十秒から5分程度」</strong>の時間がかかることがあります（プライマリサーバへの反映、および冗長化のためのセカンダリサーバをスレーブサーバとしている場合のゾーン転送）。</p>
+            </div>
+          </div>
+        </section>
+        <section id="dns-mechanism-resolver">
+          <h3 class="heading"><a class="section-anchor" href="#dns-mechanism-resolver" title="ドメイン名からIPアドレスを調べる：名前解決">¶</a>3章. ドメイン名からIPアドレスを調べる：名前解決</h3>
+          <figure>
+            <p class="object"><img src="img/dns-mechanism-resolver.png" alt="" /></p>
+            <figcaption><a href="img/dns-mechanism-resolver.png" target="_blank">図3「ドメイン名からIPアドレスを調べる：名前解決」（<span class="link">別ウィンドウで開く</span>）</a></figcaption>
+          </figure>
+          <div class="desc">
+            <p>ドメイン名からIPアドレスを調べる際のDNSの動作を見ていきましょう。</p>
+            <p>次の3つの概念に注目してください。</p>
+            <ul>
+              <li>スタブリゾルバ（端末の中でDNS問い合わせを行うプログラム）</li>
+              <li>フルリゾルバ（DNSキャッシュサーバ）：ISP（インターネットサービスプロバイダ）側に存在するDNSサーバ</li>
+              <li>ゾーンサーバ（権威DNSサーバ）：あるドメイン名に関するDNSレコードを管理しているサーバ</li>
+            </ul>
+            <div class="stepsBlock">
+              <ol>
+                <li>ブラウザのアドレスバーに <strong>debiru.net</strong> と入力すると、<strong>スタブリゾルバ</strong>がフルリゾルバに<strong>名前解決要求</strong>を行う。</li>
+                <li><strong>フルリゾルバ</strong>は、信頼できるルートゾーンサーバを予め知っているので、そこに debiru.net のIPアドレスを<strong>質問する</strong>。</li>
+                <li><strong>ルートゾーンサーバ</strong>は <strong>net</strong> の情報を委任しているので<strong>委任先を答える</strong>。
+                  <ul class="note">
+                    <li>ゾーンサーバは、自身が知っていれば答えを、委任していれば委任先を、情報が何もなければそのことを返答する。</li>
+                  </ul>
+                </li>
+                <li><strong>フルリゾルバ</strong>は、教えてもらった<strong>委任先に再度質問</strong>する。</li>
+                <li><strong>net ゾーンサーバ</strong>は、前のセクションで行ったドメイン名登録によって、<strong>debiru.net</strong> の委任先を知っているので、<strong>委任先を答える</strong>。</li>
+                <li><strong>フルリゾルバ</strong>は、教えてもらった<strong>委任先に再度質問</strong>する。</li>
+                <li>（debiru.net のDNSレコードを管理している）<strong>Route 53 のゾーンサーバ</strong>は、登録されているIPアドレス（Aレコードの情報）を<strong>答える</strong>。</li>
+                <li><strong>フルリゾルバ</strong>は、（委任先情報ではなく）回答をもらったので、<strong>その結果をスタブリゾルバに返す</strong>。</li>
+              </ol>
+            </div>
+            <p>IPアドレスが得られた後は、内部的にそのIPアドレスへ接続することでWebページが表示できます（HTTPリクエストの場合の例）。</p>
+            <div class="infoBlock">
+              <p>フルリゾルバが頑張っている様子が分かりますか？</p>
+              <p>スタブリゾルバの<strong>「debiru.net のIPアドレスは？」</strong>という問い合わせに対して、関連各所に聞き回って<strong>最終的な情報</strong>を得てきています。ここで注目すべきは、<strong>信頼できる情報を持っている相手</strong>に聞き回っているという点です。もしフルリゾルバが「debiru.net を知っている人がいたら教えてください」などと様々なゾーンサーバに出鱈目に聞きまわってしまったら、悪意のある第三者（第三のゾーンサーバ）が偽りの情報を伝えてしまうかもしれません。これを防ぐ仕組みが<strong>「委任」</strong>です。</p>
+              <p>フルリゾルバは、最も信頼できる相手（ルートゾーンサーバ）に聞きに行き、<strong>その相手が知っていたら答えをもらいます</strong>。知らなければ、代わりに知っている信頼できる人<strong>（委任先ゾーンサーバ）を教えてもらいます</strong>。このとき、代わりに知っている人がいないこともありますが、その場合は<strong>「その情報は分からないので答えられません」</strong>とゾーンサーバは答えます。</p>
+              <div class="note">
+                <p>※正確にはゾーンサーバは、IPアドレスを知っていても（Aレコードが登録されていたとしても）、委任先がある場合（NSレコードが登録されている場合）には、<strong>「委任先に聞け」という答えを優先して返答</strong>します。</p>
+              </div>
+              <p>フルリゾルバは頑張って<strong>「聞き回って」</strong>いますが、ゾーンサーバは<strong>「答える」</strong>か<strong>「別の人に聞いて」</strong>と言ってくるだけです。</p>
+              <p>この<strong>「聞き回る動作」</strong>を<strong>「反復問い合わせ」</strong>といいます。相手が最終的な答えをくれない（委任先を紹介される）かもしれないけれど、その場合は<strong>委任先に再度質問する</strong>という動作です。</p>
+            </div>
+          </div>
+        </section>
+        <section id="dns-mechanism-cache-server">
+          <h3 class="heading"><a class="section-anchor" href="#dns-mechanism-cache-server" title="フルリゾルバは得られた応答をキャッシュする：DNSキャッシュサーバ">¶</a>4章. フルリゾルバは得られた応答をキャッシュする：DNSキャッシュサーバ</h3>
+          <figure>
+            <p class="object"><img src="img/dns-mechanism-cache-server.png" alt="" /></p>
+            <figcaption><a href="img/dns-mechanism-cache-server.png" target="_blank">図4「フルリゾルバは得られた応答をキャッシュする：DNSキャッシュサーバ」（<span class="link">別ウィンドウで開く</span>）</a></figcaption>
+          </figure>
+          <div class="desc">
+            <p>以下のステップ(1.)〜(8.)は前のセクションと同じです。</p>
+            <p>ここで注目すべきなのは、<strong>「フルリゾルバ」</strong>は、<strong>「ゾーンサーバ」</strong>から受け取った<strong>応答（委任先情報、または回答）をキャッシュする</strong>ということです。</p>
+            <div class="stepsBlock">
+              <ol>
+                <li>ブラウザのアドレスバーに <strong>debiru.net</strong> と入力すると、<strong>スタブリゾルバ</strong>がフルリゾルバに<strong>名前解決要求</strong>を行う。</li>
+                <li><strong>フルリゾルバ</strong>は、信頼できるルートゾーンサーバを予め知っているので、そこに debiru.net のIPアドレスを<strong>質問する</strong>。</li>
+                <li><strong>ルートゾーンサーバ</strong>は <strong>net</strong> の情報を委任しているので<strong>委任先を答える</strong>。
+                  <ul class="note">
+                    <li>ゾーンサーバは、自身が知っていれば答えを、委任していれば委任先を、情報が何もなければそのことを返答する。</li>
+                  </ul>
+                </li>
+                <li><strong>フルリゾルバ</strong>は、教えてもらった<strong>委任先に再度質問</strong>する。</li>
+                <li><strong>net ゾーンサーバ</strong>は、前のセクションで行ったドメイン名登録によって、<strong>debiru.net</strong> の委任先を知っているので、<strong>委任先を答える</strong>。</li>
+                <li><strong>フルリゾルバ</strong>は、教えてもらった<strong>委任先に再度質問</strong>する。</li>
+                <li>（debiru.net のDNSレコードを管理している）<strong>Route 53 のゾーンサーバ</strong>は、登録されているIPアドレス（Aレコードの情報）を<strong>答える</strong>。</li>
+                <li><strong>フルリゾルバ</strong>は、（委任先情報ではなく）回答をもらったので、<strong>その結果をスタブリゾルバに返す</strong>。</li>
+                <li><strong>debiru.net</strong> のIPアドレスを <strong>x.x.x.x から y.y.y.y に書き換える</strong>。</li>
+                <li><strong>スタブリゾルバ</strong>が debiru.net の<strong>IPアドレスを問い合わせる</strong>。</li>
+                <li><strong>フルリゾルバ</strong>は<strong>「x.x.x.x です」</strong>と<strong>スタブリゾルバに回答</strong>する。</li>
+              </ol>
+            </div>
+            <p>ステップ(9.)でIPアドレスを書き換えているにもかかわらず、その後の問い合わせで得られたIPアドレスが書き換える前の x.x.x.x になっています。</p>
+            <p>これは、ステップ(7.)でのゾーンサーバからの回答をキャッシュしているために、その回答がそのままスタブリゾルバに返された、という状況です。</p>
+            <div class="infoBlock">
+              <p>前のセクションでは<strong>「反復問い合わせ」</strong>を解説しました。フルリゾルバからゾーンサーバに、回答が得られるまで委任先を辿って問い合わせる動作です。</p>
+              <p>一方、自分で反復問い合わせをせずに相手に最終的な答えを求めている質問が、最初のスタブリゾルバからフルリゾルバにしている<strong>名前解決要求</strong>です。これを<strong>「再帰問い合わせ」</strong>といいます。<strong>スタブリゾルバが「再帰問い合わせ」</strong>をすると、<strong>フルリゾルバは「反復問い合わせ」</strong>をします。</p>
+              <p>フルリゾルバは、スタブリゾルバから質問を受けて、返答をしなければなりません。そのために<strong>「反復問い合わせ」</strong>をしますが、<strong>「聞き回る」動作は時間がかかる大変な作業</strong>です。</p>
+              <p>このために、フルリゾルバは反復問い合わせした際の<strong>「ゾーンサーバからの応答（回答、または委任先情報）」</strong>を<strong>「キャッシュ」</strong>します。なお、「再帰問い合わせ」に対して、相手が知っていたら答えてもらう問い合わせを<strong>「非再帰問い合わせ」</strong>といいます。フルリゾルバはゾーンサーバに対して「非再帰問い合わせ」をしています。</p>
+              <p>キャッシュされる時間は、ゾーンサーバからの応答に含まれる<strong>「TTL（Time To Live）」</strong>によって決まります。例えば<strong>「IPアドレスの回答（Aレコード）」</strong>の<strong>「TTL(秒)」が3600</strong>の場合、<strong>キャッシュは1時間保持されます</strong>。</p>
+              <div class="note">
+                <p>正確には、常に1時間キャッシュされるわけではなく、<strong>「最長で1時間キャッシュされる」</strong>という意味になります。フルリゾルバはキャッシュすることが必須ではないので、指定されたTTL秒までキャッシュしてもいいし、それより短い時間だけキャッシュしてもいいし、キャッシュしなくてもよいのです。とはいっても、一般的なフルリゾルバは指定された時間だけキャッシュします。</p>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="dns-mechanism-no-answer">
+          <h3 class="heading"><a class="section-anchor" href="#dns-mechanism-no-answer" title="情報が存在しない場合の名前解決の結果">¶</a>5章. 情報が存在しない場合の名前解決の結果</h3>
+          <figure>
+            <p class="object"><img src="img/dns-mechanism-no-answer.png" alt="" /></p>
+            <figcaption><a href="img/dns-mechanism-no-answer.png" target="_blank">図5「情報が存在しない場合の名前解決の結果」（<span class="link">別ウィンドウで開く</span>）</a></figcaption>
+          </figure>
+          <div class="desc">
+            <p>スタブリゾルバからの問い合わせに対して、そのドメイン名の情報を持つゾーンサーバが存在しない場合。</p>
+            <div class="stepsBlock">
+              <ol>
+                <li><strong>スタブリゾルバ</strong>が <strong>example.jp</strong> のIPアドレスを<strong>フルリゾルバ</strong>に問い合わせる（再帰問い合わせ）。</li>
+                <li><strong>フルリゾルバ</strong>は、信頼できるルートゾーンサーバを予め知っているので、そこに example.jp のIPアドレスを<strong>問い合わせる</strong>（非再帰問い合わせ）。</li>
+                <li><strong>ルートゾーンサーバ</strong>は <strong>jp</strong> ゾーンを委任しているので<strong>委任先を答える</strong>。
+                  <ul class="note">
+                    <li>ゾーンサーバは、自身が知っていれば答えを、委任していれば委任先を、<strong>情報が何もなければそのこと</strong>を返答する。</li>
+                  </ul>
+                </li>
+                <li><strong>フルリゾルバ</strong>は、教えてもらった<strong>委任先に再度問い合わせ</strong>（非再帰問い合わせ）する。</li>
+                <li><strong>jp ゾーンサーバ</strong>は、自身が管理するDNSレコードを調べるが、<strong>example.jp</strong> のDNSレコードは何も持っていないので<strong>「情報が存在しない」</strong>と応答する。
+                  <ul class="note">
+                    <li>この場合は<strong>「NXDOMAIN」応答</strong>となる。</li>
+                    <li>NXDOMAIN以外のケースとしては、DNSレコードは存在するが、そのレコードの種類が違うため質問には答えられない場合は「NOERROR」応答（<strong>「NODATA」応答</strong>と呼ばれる）が返される。</li>
+                  </ul>
+                </li>
+                <li><strong>フルリゾルバ</strong>は、<strong>「情報が存在しない」</strong>という結果を<strong>スタブリゾルバ</strong>に返答する。</li>
+              </ol>
+            </div>
+            <div class="infoBlock">
+              <p>フルリゾルバが<strong>「反復問い合わせ」をし終えたとき</strong>には<strong>最後のゾーンサーバからの応答</strong>が得られているが、これが<strong>問い合わせへの回答</strong>だとは限らない。</p>
+              <p>この文書では<strong>「回答」</strong>という言葉を<strong>「Answer Section」を含む応答</strong>として使っているが、回答が得られない場合には<strong>「情報が存在しなかった」という応答</strong>になる。</p>
+            </div>
+          </div>
+        </section>
+        <section id="dns-mechanism-negative-cache">
+          <h3 class="heading"><a class="section-anchor" href="#dns-mechanism-negative-cache" title="情報が存在しないという応答もキャッシュする：ネガティブキャッシュ">¶</a>6章. 情報が存在しないという応答もキャッシュする：ネガティブキャッシュ</h3>
+          <figure>
+            <p class="object"><img src="img/dns-mechanism-negative-cache.png" alt="" /></p>
+            <figcaption><a href="img/dns-mechanism-negative-cache.png" target="_blank">図6「情報が存在しないという応答もキャッシュする：ネガティブキャッシュ」（<span class="link">別ウィンドウで開く</span>）</a></figcaption>
+          </figure>
+          <div class="desc">
+            <p>以下のステップ(1.)〜(6.)は前のセクションと同じです。</p>
+            <div class="stepsBlock">
+              <ol>
+                <li><strong>スタブリゾルバ</strong>が <strong>example.jp</strong> のIPアドレスを<strong>フルリゾルバ</strong>に問い合わせる（再帰問い合わせ）。</li>
+                <li><strong>フルリゾルバ</strong>は、信頼できるルートゾーンサーバを予め知っているので、そこに example.jp のIPアドレスを<strong>問い合わせる</strong>（非再帰問い合わせ）。</li>
+                <li><strong>ルートゾーンサーバ</strong>は <strong>jp</strong> ゾーンを委任しているので<strong>委任先を答える</strong>。
+                  <ul class="note">
+                    <li>ゾーンサーバは、自身が知っていれば答えを、委任していれば委任先を、<strong>情報が何もなければそのこと</strong>を返答する。</li>
+                  </ul>
+                </li>
+                <li><strong>フルリゾルバ</strong>は、教えてもらった<strong>委任先に再度問い合わせ</strong>（非再帰問い合わせ）する。</li>
+                <li><strong>jp ゾーンサーバ</strong>は、自身が管理するDNSレコードを調べるが、<strong>example.jp</strong> のDNSレコードは何も持っていないので<strong>「情報が存在しない」</strong>と応答する。
+                  <ul class="note">
+                    <li>この場合は<strong>「NXDOMAIN」応答</strong>となる。</li>
+                    <li>NXDOMAIN以外のケースとしては、DNSレコードは存在するが、そのレコードの種類が違うため質問には答えられない場合は「NOERROR」応答（<strong>「NODATA」応答</strong>と呼ばれる）が返される。</li>
+                  </ul>
+                </li>
+                <li><strong>フルリゾルバ</strong>は、<strong>「情報が存在しない」</strong>という結果を<strong>スタブリゾルバ</strong>に返答する。</li>
+                <li><strong>ドメイン名登録者</strong>が、<strong>example.jp</strong> ドメイン名を登録する。</li>
+                <li>そして<strong>委任元NSレコード</strong>に、<strong>example.jp</strong> ゾーンの権威DNSサーバを指すドメイン名を登録する。</li>
+                <li>その上で、<strong>example.jp</strong> ゾーンの権威DNSサーバに、IPアドレス（Aレコード）を登録する。</li>
+                <li><strong>スタブリゾルバ</strong>が <strong>example.jp</strong> のIPアドレスを<strong>フルリゾルバ</strong>に問い合わせる。</li>
+                <li><strong>フルリゾルバ</strong>は、<strong>「情報が存在しない」</strong>という結果を<strong>スタブリゾルバ</strong>に返答する。</li>
+              </ol>
+            </div>
+            <p>ステップ(7.)〜(9.)で example.jp ゾーンのDNSレコードを登録しているにもかかわらず、その後の問い合わせでIPアドレスを取得することができていません。</p>
+            <p>これは、ステップ(5.)でのゾーンサーバからの<strong>「不在応答」</strong>をキャッシュしているために、その回答がそのままスタブリゾルバに返された
+            、という状況です。</p>
+          </div>
+          <div class="infoBlock">
+            <p>「情報が存在しない」という応答（<strong>不在応答</strong>）がキャッシュされることで、何が起こるか想像できるでしょうか。</p>
+            <p>ゾーンサーバから「IPアドレスはこれでした」という回答がされると、<strong>フルリゾルバ</strong>はその回答で指定されたTTL時間だけ<strong>キャッシュする</strong>のでした。</p>
+            <p>そしてキャッシュがある間は、<strong>ゾーンサーバのDNSレコードを変更しても</strong>、スタブリゾルバにはその<strong>情報が渡らない</strong>のでした（<strong>キャッシュ</strong>が使われてしまうため）。</p>
+            <p><strong>「不在応答」</strong>であっても同じことが起きます。一度、不在応答をキャッシュしてしまうと、<strong>フルリゾルバ</strong>は不在応答のキャッシュを破棄するまで、<strong>ゾーンサーバに問い合わせをしなくなる</strong>のです。</p>
+            <p class="important"><strong>「DNSレコードを設定したのに、名前解決ができない」</strong></p>
+            <p>この状況こそが、<strong>「DNS浸透待ち」</strong>という<strong>誤解</strong>を招いている原因です。</p>
+            <p><strong>「不在応答のキャッシュ」</strong>のことを<strong>「ネガティブキャッシュ」</strong>と呼びます。</p>
+            <p>なお、ネガティブキャッシュのキャッシュ時間（TTL）は、ゾーンを定義するための<strong>SOAレコード</strong>に含まれる設定値によって決まります。</p>
+            <ul>
+              <li>ネガティブキャッシュのTTLを決定する際に関係する設定値は<strong>「4つ」</strong>あります。
+                <ul>
+                  <li><strong>(SOA_TTL)</strong> SOAレコードのTTL値</li>
+                  <li><strong>(SOA_MINIMUM)</strong> SOAレコードの minimum という設定値</li>
+                  <li><strong>(MAX)</strong> フルリゾルバ側の max-ncache-ttl のようなパラメータ名で定義されている「ネガティブキャッシュのTTL<strong>上限値</strong>」</li>
+                  <li><strong>(MIN)</strong> フルリゾルバ側の min-ncache-ttl のようなパラメータ名で定義されている「ネガティブキャッシュのTTL<strong>下限値</strong>」</li>
+                </ul>
+              </li>
+              <li>(SOA_TTL, SOA_MINUMUM_ MAX) のうち、最も小さい値を X として、<strong>(X, MIN) の大きい方の値</strong>がネガティブキャッシュのTTLとなります。</li>
+              <li>説明的には、<strong>「SOA_TTL と SOA_MINIMUM の小さい方が使われる」</strong>が、<strong>「MIN と MAX の範囲内に制限される」</strong>ということです。</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+    </section>
+    <div class="statusBlock">
+      <p>2019年5月10日時点では、この文書はここまでになります。</p>
+      <p>質問や指摘など、何かあればお気軽に <a href="https://twitter.com/debiru_R" target="_blank">@debiru_R</a> にメンションをいただければと思います。</p>
+    </div>
+  </main>
+  <footer id="page-footer">
+    <hr />
+    <nav class="section-nav">
+      <ul class="list">
+        <li><a href="./">浸透いうな</a></li>
+        <li><a href="#dns-important-points">TL;DR</a></li>
+        <li><a href="#dns-mechanism">第一弾<span class="title">：DNSの仕組みを理解する</span></a>
+          <ul>
+            <li><a href="#dns-mechanism-zone">1章<span class="title">. hostsファイルとDNS：ゾーンという概念</span></a></li>
+            <li><a href="#dns-mechanism-registration">2章<span class="title">. ドメイン名の登録</span></a></li>
+            <li><a href="#dns-mechanism-resolver">3章<span class="title">. ドメイン名からIPアドレスを調べる：名前解決</span></a></li>
+            <li><a href="#dns-mechanism-cache-server">4章<span class="title">. フルリゾルバは得られた応答をキャッシュする：DNSキャッシュサーバ</span></a></li>
+            <li><a href="#dns-mechanism-no-answer">5章<span class="title">. 情報が存在しない場合の名前解決の結果</span></a></li>
+            <li><a href="#dns-mechanism-negative-cache">6章<span class="title">. 情報が存在しないという応答もキャッシュする：ネガティブキャッシュ</span></a></li>
+          </ul>
+        </li>
+        <li>第二弾<span class="title">：適切なDNSレコードの設定手順と確認方法（2019年6月公開予定）</span></li>
+        <li>第三弾<span class="title">：DNS移転シミュレーター（2019年8月公開予定）</span></li>
+      </ul>
+    </nav>
+    <div class="footerContent">
+      <p class="copyright">このページのすべてのコンテンツは <span class="term"><a href="http://www.kmonos.net/nysl/" target="_blank">NYSL</a> ライセンス</span>で提供します。</p>
+      <p class="feedback">このページに関するフィードバックは <a href="https://twitter.com/debiru_R" target="_blank">@debiru_R</a> までご連絡ください。</p>
+    </div>
+  </footer>
+</div>
+</body>
+</html>

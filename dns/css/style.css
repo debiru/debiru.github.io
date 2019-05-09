@@ -1,0 +1,287 @@
+@charset "UTF-8";
+html {
+  background: #f6f6f6;
+}
+
+body {
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+
+a {
+  color: #00c;
+}
+a:hover {
+  color: #00f;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+hr {
+  margin: 20px 0;
+}
+hr:last-child {
+  margin-bottom: 0;
+}
+
+.term {
+  display: inline-block;
+  text-align: left;
+}
+
+#page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+#page-container ul, #page-container ol {
+  margin-top: 10px;
+}
+#page-container ul ul, #page-container ul ol, #page-container ol ul, #page-container ol ol {
+  margin-top: 0;
+}
+#page-container ul {
+  list-style: disc;
+}
+#page-container ol {
+  list-style: decimal;
+}
+#page-container li {
+  margin: 1px 0 1px 30px;
+}
+#page-container strong {
+  color: #c00;
+}
+#page-container strong a {
+  color: #c00;
+}
+#page-container strong a:hover {
+  color: #f00;
+}
+#page-container .note {
+  color: #333;
+  font-size: 13px;
+}
+#page-container .listBlock {
+  margin: 10px 0 20px;
+}
+#page-container .listBlock > ul {
+  display: inline-block;
+  text-align: left;
+  vertical-align: top;
+}
+#page-container .stepsBlock {
+  margin: 16px 0;
+  padding-bottom: 10px;
+  border-width: 1px 0;
+  border-style: dotted;
+  border-color: #999;
+}
+
+#page-header {
+  padding-top: 20px;
+  text-align: center;
+}
+#page-header p {
+  margin-top: 10px;
+}
+#page-header .heading {
+  font-size: 32px;
+}
+#page-header .misc {
+  text-align: right;
+  font-family: Verdana, sans-serif;
+}
+#page-header .misc p {
+  margin-top: 4px;
+}
+#page-header .misc .revision {
+  font-size: 13px;
+}
+#page-header .misc .nav-footer {
+  font-size: 12px;
+}
+#page-header .lead {
+  margin: 20px 0;
+  font-size: 16px;
+}
+#page-header .keywords strong {
+  display: inline-block;
+  vertical-align: top;
+}
+#page-header .poem p {
+  margin-top: 16px;
+}
+
+#page-footer {
+  padding-bottom: 20px;
+  font-size: 13px;
+}
+#page-footer .section-nav {
+  overflow: hidden;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  height: 40px;
+  padding: 2px 8px;
+  border: 1px solid #f90;
+  background: #ffc;
+  opacity: 0.5;
+}
+@media screen and (max-width: 480px) {
+  #page-footer .section-nav {
+    display: none;
+  }
+}
+#page-footer .section-nav:hover {
+  height: auto;
+  opacity: 1;
+}
+#page-footer .section-nav ul {
+  list-style: none;
+  margin: 0;
+}
+#page-footer .section-nav ul li {
+  margin-left: 20px;
+}
+#page-footer .section-nav .list > li {
+  margin-left: 0;
+}
+#page-footer .section-nav .title {
+  display: none;
+}
+#page-footer .footerContent {
+  text-align: center;
+}
+#page-footer .feedback {
+  margin-top: 10px;
+}
+
+#page-main section {
+  margin: 40px 0;
+}
+#page-main section > .heading {
+  padding: 2px 4px;
+  border-bottom: 1px solid #999;
+  font-size: 28px;
+}
+#page-main section > .heading .section-anchor {
+  margin-right: 8px;
+  text-decoration: none;
+  vertical-align: top;
+  font-size: 14px;
+}
+#page-main .subSections > section .heading {
+  font-size: 22px;
+}
+#page-main .subSections > section figure {
+  margin: 10px 0 20px;
+  text-align: center;
+}
+#page-main .subSections > section figure p {
+  margin: 0;
+}
+#page-main .subSections > section figure .object {
+  position: relative;
+  max-width: 900px;
+  margin: auto;
+}
+#page-main .subSections > section figure .object::before {
+  content: "";
+  display: block;
+  padding-top: 75%;
+}
+#page-main .subSections > section figure .object img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#page-main .subSections > section figure figcaption {
+  margin: 4px 0;
+}
+#page-main .subSections > section figure figcaption a {
+  text-decoration: none;
+}
+#page-main .subSections > section figure figcaption .link {
+  text-decoration: underline;
+}
+#page-main .subSections > section figure figcaption .link:hover {
+  text-decoration: none;
+}
+#page-main p {
+  margin-top: 10px;
+}
+
+#dns-important-points .short-version {
+  margin: 16px 0;
+  padding-bottom: 10px;
+  border-width: 1px 0;
+  border-style: dotted;
+  border-color: #999;
+}
+#dns-important-points .short-version .label {
+  font-weight: bold;
+}
+#dns-important-points .short-version pre {
+  display: inline-block;
+  margin-top: 4px;
+  padding: 4px 8px;
+  border: 1px solid #999;
+}
+
+#dns-mechanism .subSections {
+  counter-reset: sect;
+}
+#dns-mechanism .subSections section {
+  counter-increment: sect;
+}
+#dns-mechanism .subSections section .infoBlock {
+  position: relative;
+  margin: 36px 0 20px;
+  padding: 10px;
+  border: 1px solid #f96;
+  background: #ffc;
+  font-size: 13px;
+}
+#dns-mechanism .subSections section .infoBlock::before {
+  content: "# 第" counter(sect) "章 Point";
+  display: block;
+  position: absolute;
+  bottom: 100%;
+  left: -1px;
+  padding: 1px 10px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #f96;
+  border-radius: 0 8px 0 0;
+  background: #fcc;
+  color: #c30;
+  font-size: 12px;
+  font-family: Verdana, sans-serif;
+}
+#dns-mechanism .subSections section .infoBlock > :first-child {
+  margin-top: 0;
+}
+#dns-mechanism .subSections section .infoBlock .note {
+  font-size: 12px;
+}
+#dns-mechanism .important {
+  font-size: 20px;
+}
+#dns-mechanism .important strong {
+  color: #00c;
+}
+
+#page-container .statusBlock {
+  padding: 8px 12px;
+  border: 1px solid #0ff;
+  background: #cff;
+}
+#page-container .statusBlock > :first-child {
+  margin-top: 0;
+}
