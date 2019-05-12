@@ -277,11 +277,30 @@ hr:last-child {
   color: #00c;
 }
 
-#page-container .statusBlock {
+#footer-note .to-be-continued {
+  padding: 8px 12px;
+  border: 1px solid #090;
+  background: #cfc;
+}
+#footer-note .to-be-continued p {
+  margin-top: 5px;
+}
+#footer-note .to-be-continued > :first-child {
+  margin-top: 0;
+}
+#footer-note .to-be-continued ul {
+  margin-top: 5px;
+}
+#footer-note .to-be-continued li {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+#footer-note .statusBlock {
+  margin-top: 40px;
   padding: 8px 12px;
   border: 1px solid #0ff;
   background: #cff;
 }
-#page-container .statusBlock > :first-child {
+#footer-note .statusBlock > :first-child {
   margin-top: 0;
 }
