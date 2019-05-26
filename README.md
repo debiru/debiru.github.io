@@ -1,4 +1,5 @@
 - Website: [https://debiru.net/](https://debiru.net/)
+- Blog: [http://debiru.hatenablog.com/](http://debiru.hatenablog.com/)
 - Author: [@debiru_R](https://twitter.com/debiru_R)
 
 ## Contents
