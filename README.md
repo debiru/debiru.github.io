@@ -14,6 +14,8 @@
 - 2019-05-10
     - [LT資料 - 我々が、DNSの浸透を待つ間に起きている真実](https://debiru.net/dns/20190510.pdf)
     - [Don't say Propagation - 浸透いうな](https://debiru.net/dns/)
+- 2020-07-02
+    - [『人月の神話』新人エンジニアにオススメする技術書 | IIJ Engineers Blog](https://eng-blog.iij.ad.jp/archives/6144)
 - 2020-12-01
     - [Webの誕生とブラウザの歴史（PDF - 21MB）](https://lavoscore.org/assets/file/history-of-web-and-browser.pdf)
 - 2022-01-29
