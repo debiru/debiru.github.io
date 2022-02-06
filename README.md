@@ -13,7 +13,7 @@
     - [LT資料 - 我々が、DNSの浸透を待つ間に起きている真実](https://debiru.net/dns/20190510.pdf)
     - [Don't say Propagation - 浸透いうな](https://debiru.net/dns/)
 - 2020-12-01
-    - [フロントエンド界隈 Overview（PDF - 27MB）](https://iij.github.io/bootcamp/frontend_overview.pdf)
+    - [Webの誕生とブラウザの歴史（PDF - 21MB）](https://lavoscore.org/assets/file/history-of-web-and-browser.pdf)
 - 2022-01-29
     - [2022年1月26日 Let's Encrypt の TLS-ALPN-01 チャレンジによる証明書取り消しの状況調査（\*.jp ドメイン名）](https://alpn20220126.lavoscore.org/)
     - [OCSP Checker](https://ssl.lavoscore.org/api/sslcert-expires/ocsp-checker/?q=lavoscore.org)
