@@ -1,7 +1,9 @@
 - Author: [@debiru_R](https://twitter.com/debiru_R) (debiru) / coeurl
 - GitHub: [https://github.com/debiru/](https://github.com/debiru/)
-- Website: [https://debiru.net/](https://debiru.net/)
 - Blog: [http://debiru.hatenablog.com/](http://debiru.hatenablog.com/)
+- Website:
+    - [https://lavoscore.org/](https://lavoscore.org/)
+    - [https://debiru.net/](https://debiru.net/)
 
 ## Contents
 
