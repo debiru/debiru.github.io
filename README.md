@@ -41,3 +41,19 @@
 ---
 
 This page is published by GitHub.
+
+<script>
+(function(){
+  document.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      let url = new URL('https://analytics.lavoscore.org/');
+      url.searchParams.set('url', a.getAttribute('href'));
+      url.searchParams.set('title', a.textContent);
+      let script = document.createElement('script');
+      script.src = url.href;
+      document.body.appendChild(script);
+      script.remove();
+    });
+  });
+}());
+</script>
