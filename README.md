@@ -1,4 +1,4 @@
-<script src="https://analytics.lavoscore.org/analytics.js"></script>
+<script src="https://lavoscore.org/analytics.js"></script>
 
 - Author: [@debiru_R](https://twitter.com/debiru_R) (debiru) / coeurl
 - GitHub: [https://github.com/debiru/](https://github.com/debiru/)
