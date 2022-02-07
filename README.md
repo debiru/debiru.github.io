@@ -45,8 +45,8 @@ This page is published by GitHub.
 <script>
 (function(){
   document.querySelectorAll('a').forEach(a => {
+    a.setAttribute('target', '_blank');
     a.addEventListener('click', () => {
-      a.setAttribute('target', '_blank');
       let url = new URL('https://analytics.lavoscore.org/');
       url.searchParams.set('url', a.getAttribute('href'));
       url.searchParams.set('title', a.textContent);
