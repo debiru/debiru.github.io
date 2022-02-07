@@ -22,6 +22,22 @@
     - [2022年1月26日 Let's Encrypt の TLS-ALPN-01 チャレンジによる証明書取り消しの状況調査（\*.jp ドメイン名）](https://alpn20220126.lavoscore.org/)
     - [OCSP Checker](https://ssl.lavoscore.org/api/sslcert-expires/ocsp-checker/?q=lavoscore.org)
 
+### Portfolio
+
+- (2010 - 2012) OpenPNE 3 開発時代のチケットコメント10選
+    - [#2440: 携帯版で外部サイトのURLへリダイレクトする処理を記述すると...](https://redmine.openpne.jp/issues/2440#note-4)
+    - [#940: プロフィール項目の日付やテキストの最小値を最大値より大きくして設定できてしまう](https://redmine.openpne.jp/issues/940#note-7)
+    - [#1193: 確認キーワードを誤入力または未入力の場合にエラーメッセージが表示されない](https://redmine.openpne.jp/issues/1193#note-10)
+    - [#1595: ProfileForm で日付型のプロフィール項目の最大値・最小値の入力欄に...](https://redmine.openpne.jp/issues/1595#note-10)
+    - [#2000: プレビューモードの絵文字パレットの右上にスペースがある](https://redmine.openpne.jp/issues/2000)
+    - [#2008: config/OpenPNE.yml で80番以外のポート番号を含むURLをbase_urlに...](https://redmine.openpne.jp/issues/2008#note-16)
+    - [#2106: 部分一致検索を行う箇所でワイルドカード検索ができてしまう](https://redmine.openpne.jp/issues/2106)
+    - [#2356: 管理画面でプロフィール項目の識別名に全角文字や角括弧が使えてしまう](https://redmine.openpne.jp/issues/2356)
+    - [#2428: プロフィール編集画面にて、最大値制限もしくは最小値制限に違反した場合...](https://redmine.openpne.jp/issues/2428#note-5)
+    - [#2495: HTML挿入で テキストモード→プレビューモード→テキストモード の切り替えを...](https://redmine.openpne.jp/issues/2495#note-2)
+- 2015-07-15
+    - [IEでmain要素のwidth, height指定が無視されるのはなぜでしょうか？ \| Google Groups - html5-developers-jp](https://groups.google.com/g/html5-developers-jp/c/niGvn5ffaeM/m/flofjwBqlSQJ)
+
 ---
 
 This page is published by GitHub.
