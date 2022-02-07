@@ -1,3 +1,5 @@
+<script src="https://analytics.lavoscore.org/analytics.js"></script>
+
 - Author: [@debiru_R](https://twitter.com/debiru_R) (debiru) / coeurl
 - GitHub: [https://github.com/debiru/](https://github.com/debiru/)
 - Blog: [http://debiru.hatenablog.com/](http://debiru.hatenablog.com/)
@@ -41,16 +43,3 @@
 ---
 
 This page is published by GitHub.
-
-<script>
-(function(){
-  document.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      let url = new URL('https://analytics.lavoscore.org/');
-      url.searchParams.set('url', a.getAttribute('href'));
-      url.searchParams.set('title', a.textContent);
-      navigator.sendBeacon(url.href);
-    });
-  });
-}());
-</script>
