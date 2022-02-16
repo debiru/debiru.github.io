@@ -43,6 +43,9 @@
     - [#2495: HTML挿入で テキストモード→プレビューモード→テキストモード の切り替えを...](https://redmine.openpne.jp/issues/2495#note-2)
 - 2015-07-15
     - [IEでmain要素のwidth, height指定が無視されるのはなぜでしょうか？ \| Google Groups - html5-developers-jp](https://groups.google.com/g/html5-developers-jp/c/niGvn5ffaeM/m/flofjwBqlSQJ)
+- 2022-02-16
+    - [詰将棋解答選手権 - Wikipedia](https://ja.wikipedia.org/wiki/%E8%A9%B0%E5%B0%86%E6%A3%8B%E8%A7%A3%E7%AD%94%E9%81%B8%E6%89%8B%E6%A8%A9)（2022年2月16日版 - 執筆）
+    - [詰将棋解答選手権の各回情報一覧 - Wikipedia](https://ja.wikipedia.org/wiki/%E8%A9%B0%E5%B0%86%E6%A3%8B%E8%A7%A3%E7%AD%94%E9%81%B8%E6%89%8B%E6%A8%A9%E3%81%AE%E5%90%84%E5%9B%9E%E6%83%85%E5%A0%B1%E4%B8%80%E8%A6%A7)（2022年2月16日版 - 執筆）
 
 ---
 
