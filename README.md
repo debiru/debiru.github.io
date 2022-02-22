@@ -27,9 +27,14 @@
     - [失効証明書とOCSPの不思議な関係 - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220210/ocsp)
 - 2022-02-13
     - [POJ-1082をショートコーディングしてみたよ！ - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220213/poj1082)
+- 2022-02-21
+    - [MDN翻訳ステータス一覧](https://mdn.lavoscore.org/)
 
 ### Portfolio
 
+- 2009 大学時代のレポート
+    - [テキスト処理（Perl）初回課題：FizzBuzz](http://snippet.lavoscore.org/static/text_processing.pdf)
+    - [テキスト処理（Perl）最終課題：XML Parser](http://snippet.lavoscore.org/static/text_processing_final.pdf)
 - (2010 - 2012) OpenPNE 3 開発時代のチケットコメント10選
     - [#2440: 携帯版で外部サイトのURLへリダイレクトする処理を記述すると...](https://redmine.openpne.jp/issues/2440#note-4)
     - [#940: プロフィール項目の日付やテキストの最小値を最大値より大きくして設定できてしまう](https://redmine.openpne.jp/issues/940#note-7)
@@ -43,6 +48,14 @@
     - [#2495: HTML挿入で テキストモード→プレビューモード→テキストモード の切り替えを...](https://redmine.openpne.jp/issues/2495#note-2)
 - 2015-07-15
     - [IEでmain要素のwidth, height指定が無視されるのはなぜでしょうか？ \| Google Groups - html5-developers-jp](https://groups.google.com/g/html5-developers-jp/c/niGvn5ffaeM/m/flofjwBqlSQJ)
+- 2022-01 - 2022-02
+    - [MDN Issue - http.headers.Referrer-Policy - Update for "Safari on iOS", Safari and IE](https://github.com/mdn/browser-compat-data/issues/14675)
+    - [MDN PullReq - SameSite - IE 11 started supporting it on recent Windows 10](https://github.com/mdn/browser-compat-data/pull/15090)
+    - [Bugzilla Issue - On macOS, setting the home page by dragging tabs breaks the tabs.](https://bugzilla.mozilla.org/show_bug.cgi?id=1753861)
+    - [Bugzilla Issue - CSS counter-reset is ignored in Firefox 82 and above](https://bugzilla.mozilla.org/show_bug.cgi?id=1754521)
+    - [Let's Encrypt Forum - Is the date in the third column notBefore or notAfter?](https://community.letsencrypt.org/t/is-the-date-in-the-third-column-notbefore-or-notafter/170912)
+    - [Let's Encrypt Forum - What is the relationship between the revoking list and OCSP Stapling?](https://community.letsencrypt.org/t/what-is-the-relationship-between-the-revoking-list-and-ocsp-stapling/171099)
+    - [Let's Encrypt Forum - Don't say "propagation" in DNS](https://community.letsencrypt.org/t/dont-say-propagation-in-dns/171127)
 - 2022-02-16
     - [詰将棋解答選手権 - Wikipedia](https://ja.wikipedia.org/wiki/%E8%A9%B0%E5%B0%86%E6%A3%8B%E8%A7%A3%E7%AD%94%E9%81%B8%E6%89%8B%E6%A8%A9)（2022年2月16日版 - 執筆）
     - [詰将棋解答選手権の各回情報一覧 - Wikipedia](https://ja.wikipedia.org/wiki/%E8%A9%B0%E5%B0%86%E6%A3%8B%E8%A7%A3%E7%AD%94%E9%81%B8%E6%89%8B%E6%A8%A9%E3%81%AE%E5%90%84%E5%9B%9E%E6%83%85%E5%A0%B1%E4%B8%80%E8%A6%A7)（2022年2月16日版 - 執筆）
