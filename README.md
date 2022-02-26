@@ -50,9 +50,12 @@
     - [IEでmain要素のwidth, height指定が無視されるのはなぜでしょうか？ \| Google Groups - html5-developers-jp](https://groups.google.com/g/html5-developers-jp/c/niGvn5ffaeM/m/flofjwBqlSQJ)
 - 2022-01 - 2022-02
     - [MDN Issue - http.headers.Referrer-Policy - Update for "Safari on iOS", Safari and IE](https://github.com/mdn/browser-compat-data/issues/14675)
+    - [MDN PullReq -  Referrer-Policy - Update for "Safari on iOS", Safari and IE](https://github.com/mdn/browser-compat-data/pull/15089)
     - [MDN PullReq - SameSite - IE 11 started supporting it on recent Windows 10](https://github.com/mdn/browser-compat-data/pull/15090)
     - [Bugzilla Issue - On macOS, setting the home page by dragging tabs breaks the tabs.](https://bugzilla.mozilla.org/show_bug.cgi?id=1753861)
     - [Bugzilla Issue - CSS counter-reset is ignored in Firefox 82 and above](https://bugzilla.mozilla.org/show_bug.cgi?id=1754521)
+    - [Bugzilla Issue - list counter is affected by css counter in Firefox 68 or later](https://bugzilla.mozilla.org/show_bug.cgi?id=1757269)
+    - [GitHub Issue - Issue with "counter-reset": What is the difference in behavior between the latest Firefox (82 or later) and the older 81 or earlier or other browsers?](https://github.com/mdn/content/issues/13293)
     - [Let's Encrypt Forum - Is the date in the third column notBefore or notAfter?](https://community.letsencrypt.org/t/is-the-date-in-the-third-column-notbefore-or-notafter/170912)
     - [Let's Encrypt Forum - What is the relationship between the revoking list and OCSP Stapling?](https://community.letsencrypt.org/t/what-is-the-relationship-between-the-revoking-list-and-ocsp-stapling/171099)
     - [Let's Encrypt Forum - Don't say "propagation" in DNS](https://community.letsencrypt.org/t/dont-say-propagation-in-dns/171127)
