@@ -29,6 +29,12 @@
     - [POJ-1082をショートコーディングしてみたよ！ - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220213/poj1082)
 - 2022-02-21
     - [MDN翻訳ステータス一覧](https://mdn.lavoscore.org/)
+- 2022-02-25
+    - [Invalid な HTML のせいで counter-reset の仕様が捻じ曲げられた件 - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220225/counter-reset)
+- 2022-02-26
+    - [GitHub Issue - Issue with "counter-reset": What is the difference in behavior between the latest Firefox (82 or later) and the older 81 or earlier or other browsers?](https://github.com/mdn/content/issues/13293)
+- 2022-03-03
+    - [Using CSS counters - draft](https://css-counters.lavoscore.org/)
 
 ### Portfolio
 
@@ -55,7 +61,6 @@
     - [Bugzilla Issue - On macOS, setting the home page by dragging tabs breaks the tabs.](https://bugzilla.mozilla.org/show_bug.cgi?id=1753861)
     - [Bugzilla Issue - CSS counter-reset is ignored in Firefox 82 and above](https://bugzilla.mozilla.org/show_bug.cgi?id=1754521)
     - [Bugzilla Issue - list counter is affected by css counter in Firefox 68 or later](https://bugzilla.mozilla.org/show_bug.cgi?id=1757269)
-    - [GitHub Issue - Issue with "counter-reset": What is the difference in behavior between the latest Firefox (82 or later) and the older 81 or earlier or other browsers?](https://github.com/mdn/content/issues/13293)
     - [Let's Encrypt Forum - Is the date in the third column notBefore or notAfter?](https://community.letsencrypt.org/t/is-the-date-in-the-third-column-notbefore-or-notafter/170912)
     - [Let's Encrypt Forum - What is the relationship between the revoking list and OCSP Stapling?](https://community.letsencrypt.org/t/what-is-the-relationship-between-the-revoking-list-and-ocsp-stapling/171099)
     - [Let's Encrypt Forum - Don't say "propagation" in DNS](https://community.letsencrypt.org/t/dont-say-propagation-in-dns/171127)
