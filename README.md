@@ -29,12 +29,6 @@
     - [POJ-1082をショートコーディングしてみたよ！ - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220213/poj1082)
 - 2022-02-21
     - [MDN翻訳ステータス一覧](https://mdn.lavoscore.org/)
-- 2022-02-25
-    - [Invalid な HTML のせいで counter-reset の仕様が捻じ曲げられた件 - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220225/counter-reset)
-- 2022-02-26
-    - [GitHub Issue - Issue with "counter-reset": What is the difference in behavior between the latest Firefox (82 or later) and the older 81 or earlier or other browsers?](https://github.com/mdn/content/issues/13293)
-- 2022-03-03
-    - [Using CSS counters - draft](https://css-counters.lavoscore.org/)
 
 ### Portfolio
 
@@ -67,6 +61,10 @@
 - 2022-02-16
     - [詰将棋解答選手権 - Wikipedia](https://ja.wikipedia.org/wiki/%E8%A9%B0%E5%B0%86%E6%A3%8B%E8%A7%A3%E7%AD%94%E9%81%B8%E6%89%8B%E6%A8%A9)（2022年2月16日版 - 執筆）
     - [詰将棋解答選手権の各回情報一覧 - Wikipedia](https://ja.wikipedia.org/wiki/%E8%A9%B0%E5%B0%86%E6%A3%8B%E8%A7%A3%E7%AD%94%E9%81%B8%E6%89%8B%E6%A8%A9%E3%81%AE%E5%90%84%E5%9B%9E%E6%83%85%E5%A0%B1%E4%B8%80%E8%A6%A7)（2022年2月16日版 - 執筆）
+- 2022-02-25
+    - [Invalid な HTML のせいで counter-reset の仕様が捻じ曲げられた件 - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220225/counter-reset)
+    - [GitHub Issue - Issue with "counter-reset": What is the difference in behavior between the latest Firefox (82 or later) and the older 81 or earlier or other browsers?](https://github.com/mdn/content/issues/13293)
+    - [Using CSS counters - draft](https://css-counters.lavoscore.org/)
 
 ---
 
