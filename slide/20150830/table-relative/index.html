@@ -6,24 +6,14 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" />
-    <link rel="stylesheet" href="lib-reveal/css/reveal.css" />
-    <link rel="stylesheet" href="lib-reveal/css/theme/black.css" id="theme" />
 
-    <!-- Code syntax highlighting -->
-    <link rel="stylesheet" href="lib-reveal/lib/css/zenburn.css" />
+    <link rel="stylesheet" href="lib-reveal/dist/reset.css">
+    <link rel="stylesheet" href="lib-reveal/dist/reveal.css">
+    <link rel="stylesheet" href="lib-reveal/dist/theme/black.css">
 
-    <!-- Printing and PDF exports -->
-    <script>
-      var link = document.createElement( 'link' );
-      link.rel = 'stylesheet';
-      link.type = 'text/css';
-      link.href = window.location.search.match( /print-pdf/gi ) ? 'lib-reveal/css/print/pdf.css' : 'lib-reveal/css/print/paper.css';
-      document.getElementsByTagName( 'head' )[0].appendChild( link );
-    </script>
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="lib-reveal/plugin/highlight/monokai.css">
 
-    <!--[if lt IE 9]>
-    <script src="lib-reveal/lib/js/html5shiv.js"></script>
-    <![endif]-->
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -450,59 +440,103 @@
 
     <script src="js/util.js"></script>
     <script src="js/pre_main.js"></script>
-    <script src="lib-reveal/lib/js/head.min.js"></script>
-    <script src="lib-reveal/js/reveal.js"></script>
+
+    <script src="lib-reveal/dist/reveal.js"></script>
+    <script src="lib-reveal/plugin/notes/notes.js"></script>
+    <script src="lib-reveal/plugin/markdown/markdown.js"></script>
+    <script src="lib-reveal/plugin/highlight/highlight.js"></script>
+
     <script>
       // Full list of configuration options available at:
       // https://github.com/hakimel/reveal.js#configuration
       Reveal.initialize({
-        width: 1280,                           //@(960) 基準となるスライドの横幅を指定する
-        height: 700,                           //@(700) 基準となるスライドの高さを指定する
-        margin: 0.1,                           //@(0.1) スライドの表示内容の周りの余白を指定する
-        minScale: 0.2,                         //@(0.2) ウィンドウサイズに合わせた自動ズーム率の最小値を指定する
-        maxScale: 1.5,                         //@(1.5) ウィンドウサイズに合わせた自動ズーム率の最大値を指定する
-        controls: true,                        //@(true) 右下にコントローラーを表示する
-        progress: false,                       //@(true) 下部に進捗バーを表示する
-        slideNumber: '#h',                     //@(false) 右下にスライドのページ番号を表示する（https://github.com/hakimel/reveal.js#slide-number）
-        history: true,                         //@(false) スライドの遷移時にブラウザの履歴に残す
-        keyboard: true,                        // (true) キー操作を有効にする
-        keyboardCondition: null,               // (null) キー操作を有効にする条件を返す関数を指定する（返り値が false のときに無効になる）
-        overview: true,                        // (true) "Esc","O" キーでの俯瞰モードを有効にする
-        center: true,                          //@(true) スライドの垂直位置を中央寄せにする
-        touch: true,                           // (true) タッチ操作を有効にする
-        loop: false,                           // (false) スライドをループさせる
-        rtl: false,                            // (false) スライドの進行方向を右から左へ変更する
-        fragments: true,                       // (true) fragments 機能を有効にする (https://github.com/hakimel/reveal.js#fragments)
-        embedded: false,                       // (false) iframe などでの埋め込み表示かどうか（タッチ操作時のイベント発生範囲が変更される）
-        help: true,                            // (true) "?" キーでのキー操作のヘルプ表示を有効にする
-        pause: true,                           // (true) "B","." キーでのブラックアウトを有効にする
-        autoSlide: 0,                          //@(0) 自動スライドの間隔をミリ秒で指定する（0 が指定された場合は自動スライドしない）
-        autoSlideStoppable: true,              //@(true) 左下に自動スライド停止用のボタンを表示する
-        mouseWheel: false,                     // (false) マウスホイール（スクロール）によるスライド遷移を有効にする
-        rollingLinks: false,                   // (false) スライド内のリンクに hover した際の 3D roll エフェクトを有効にする
-        hideAddressBar: true,                  // (true) モバイル端末でアドレスバーを非表示にする
-        previewLinks: false,                   // (false) スライド内のリンクを開く際に iframe を用いてプレビュー表示する
-        postMessage: true,                     // (true) window.postMessage に reveal.js API を渡す
-        postMessageEvents: false,              // (false) 親ウィンドウの postMessage に reveal.js の Dispatches Events を渡す
+        width: 1280,                    //@(960) 基準となるスライドの横幅を指定する
+        height: 700,                    //@(700) 基準となるスライドの高さを指定する
+        margin: 0.1,                    //@(0.04) スライドの表示内容の周りの余白を指定する
+        minScale: 0.2,                  //@(0.2) ウィンドウサイズに合わせた自動ズーム率の最小値を指定する
+        maxScale: 2.0,                  //@(2.0) ウィンドウサイズに合わせた自動ズーム率の最大値を指定する
+        controls: true,                 //@(true) コントローラーを表示する
+        controlsTutorial: true,         // (true) コントローラの操作ヒントを与えるアニメーションを有効にする
+        controlsLayout: 'bottom-right', // ('bottom-right') コントローラーの位置を指定する
+        controlsBackArrows: 'faded',    // ('faded') 戻る矢印の表示方法 faded/hidden/visible を指定する
+        progress: false,                //@('true') 下部に進捗バーを表示する
+        slideNumber: function(slide) {  //@('false') スライド番号の表示形式 "h.v","h/v","c","c/t" または [n1,delim,n2] を返す関数
+          let horizontalOffset = slide && slide.dataset.visibility === 'uncounted' ? 0 : 1;
+          let indices = Reveal.getIndices(slide);
+          let hStr = '#' + (indices.h + horizontalOffset);
+          return [hStr];
+        },
+        showSlideNumber: 'all',         // ('all') スライド番号の表示条件 all/print/speaker を指定する
+        hashOneBasedIndex: false,       // (false) 0-origin (false) か 1-origin (true) かを指定する
+        hash: true,                     // (false) URLハッシュにスライド番号を含める
+        respondToHashChanges: true,     // (true) ハッシュを監視してスライドを変更する
+        history: false,                 //@(false) ブラウザ履歴をスライド変更に応じて書き換える
+        keyboard: true,                 // (true) キーボードショートカットを有効にする
+        keyboardCondition: null,        // (null) キー操作を有効にする条件を返す関数を指定する（返り値が false のときに無効になる）
+        disableLayout: false,           // (false) カスタムCSSを使いたい場合にデフォルトのレイアウトを無効にする
+        overview: true,                 // (true) "Esc","O" キーでの俯瞰モードを有効にする
+        center: true,                   //@(true) スライドの垂直位置を中央寄せにする
+        touch: true,                    // (true) タッチ操作を有効にする
+        loop: false,                    // (false) スライドをループさせる
+        rtl: false,                     // (false) スライドの進行方向を右から左へ変更する
+        navigationMode: 'default',      // ('default') スライドナビゲーションの方向の振る舞い default/linear/grid を指定する
+        shuffle: false,                 // (false) ロードされるごとにスライドの順番をランダムにする
+        fragments: true,                // (true) fragments 機能を有効にする（https://revealjs.com/fragments/）
+        fragmentInURL: true,            // (true) リロード時に同じフラグメントの位置にくるよう現在のフラグメントをURLに含める
+        embedded: false,                // (false) iframe などでの埋め込み表示かどうか（タッチ操作時のイベント発生範囲が変更される）
+        help: true,                     // (true) "?" キーでのキー操作のヘルプ表示を有効にする
+        pause: true,                    // (true) "B","." キーでのブラックアウトを有効にする
+        showNotes: false,               // (false) スピーカーノートを全ての視聴者に見せるかどうか
+        showHiddenSlides: false,        // (false) data-visibility="hidden" のスライドを表示し続けるかどうか
+        autoPlayMedia: null,            // (null) メディアを自動再生するかどうか null/true/false
+        preloadIframes: null,           // (null) iframe をプリロードするかどうか null/true/false
+        autoAnimate: true,              // (true) 自動アニメーションを有効にするかどうか
+        autoAnimateMatcher: null,       // (null) どの要素間でアニメーションするかを指定する
+        autoAnimateEasing: 'ease',      // ('ease') アニメーションに関する設定
+        autoAnimateDuration: 1.0,       // (1.0) アニメーションに関する設定
+        autoAnimateUnmatched: true,     // (true) アニメーションに関する設定
+        autoAnimateStyles: [            // ([...]) アニメーションさせる CSS プロパティ
+          'opacity',
+          'color',
+          'background-color',
+          'padding',
+          'font-size',
+          'line-height',
+          'letter-spacing',
+          'border-width',
+          'border-color',
+          'border-radius',
+          'outline',
+          'outline-offset',
+        ],
+        autoSlide: 0,                   //@(0) 自動スライドの間隔をミリ秒で指定する（0 が指定された場合は自動スライドしない）
+        autoSlideStoppable: true,       //@(true) 左下に自動スライド停止用のボタンを表示する
+        autoSlideMethod: null,          // (null) オートスライド時のナビゲーションに使う方法（デフォルトは navigateNext）
+        defaultTiming: null,            // (null) 各スライドの平均秒数（スピーカービューのページングタイマーで表示される）
+        mouseWheel: false,              // (false) マウスホイール（スクロール）によるスライド遷移を有効にする
+        previewLinks: false,            // (false) スライド内のリンクを開く際に iframe を用いてプレビュー表示する
+        postMessage: true,              // (true) window.postMessage に reveal.js API を渡す
+        postMessageEvents: false,       // (false) 親ウィンドウの postMessage に reveal.js の Dispatches Events を渡す
         focusBodyOnPageVisibilityChange: true, // (true) 確実にキー操作を受け付けられるようにページ遷移時に body をフォーカスする
-        transition: 'slide',                   //@('slide') スライド遷移時のエフェクト none/fade/slide/convex/concave/zoom を指定する
-        transitionSpeed: 'slow',               //@('default') スライド遷移のスピード default/fast/slow を指定する
-        backgroundTransition: 'slide',         //@('fade') スライド遷移時の背景のエフェクト none/fade/slide/convex/concave/zoom を指定する
-        parallaxBackgroundImage: '',           // ('') Parallax 背景画像を指定する（例 'a.jpg'）
-        parallaxBackgroundSize: '',            // ('') Parallax 背景画像のサイズを指定する（例 '3000px 2000px'）
-        parallaxBackgroundHorizontal: null,    // (null) スライドのステップごとの Parallax 背景画像の水平方向の移動ピクセルを指定する
-        parallaxBackgroundVertical: null,      // (null) スライドのステップごとの Parallax 背景画像の垂直方向の移動ピクセルを指定する
-        viewDistance: 3,                       // (3) 現在のスライドから指定した数値だけ離れたスライドをバックグラウンドで表示する
-        // dependencies: []                    // ([]) 依存するスクリプトを条件付きで読み込むためのリストを記述する
-
-        // Optional reveal.js plugins
-        dependencies: [
-          { src: 'lib-reveal/lib/js/classList.js', condition: function() { return !document.body.classList; } }
-          ,{ src: 'lib-reveal/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
-          ,{ src: 'lib-reveal/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } }
-          ,{ src: 'lib-reveal/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } }
-          // ,{ src: 'lib-reveal/plugin/notes/notes.js', async: true, usage: 'Press the "S" key to open the speaker-notes window.' }
-        ]
+        transition: 'slide',            //@('slide') スライド遷移時のエフェクト none/fade/slide/convex/concave/zoom を指定する
+        transitionSpeed: 'slow',        //@('default') スライド遷移のスピード default/fast/slow を指定する
+        backgroundTransition: 'slide',  //@('fade') スライド遷移時の背景のエフェクト none/fade/slide/convex/concave/zoom を指定する
+        parallaxBackgroundImage: '',    // ('') Parallax 背景画像を指定する（例 'a.jpg'）
+        parallaxBackgroundSize: '',     // ('') Parallax 背景画像のサイズを指定する（例 '3000px 2000px'）
+        parallaxBackgroundRepeat: '',   // ('') Parallax 背景画像のリピート repeat/repeat-x/repeat-y/no-repeat/initial/inherit を指定する
+        parallaxBackgroundPosition: '', // ('') Parallax 背景画像の位置を指定する（例 'top left'）
+        parallaxBackgroundHorizontal: null, // (null) スライドのステップごとの Parallax 背景画像の水平方向の移動ピクセルを指定する
+        parallaxBackgroundVertical: null, // (null) スライドのステップごとの Parallax 背景画像の垂直方向の移動ピクセルを指定する
+        pdfMaxPagesPerSlide: Number.POSITIVE_INFINITY, // (Number.POSITIVE_INFINITY) PDF印刷時に1枚のスライドを展開できる最大ページ数
+        pdfSeparateFragments: true,     // (true) 各フラグメントを別々のスライドに印刷する
+        pdfPageHeightOffset: -1,        // (-1) エクスポートされたPDFページ内のコンテンツの高さを縮小させるためのオフセット
+        viewDistance: 3,                // (3) 現在のスライドから指定した数値だけ離れたスライドをバックグラウンドで表示する
+        mobileViewDistance: 2,          // (2) モバイル端末の場合の viewDistance
+        display: 'block',               // ('block') スライドを表示するためのモード
+        hideInactiveCursor: true,       // (true) インタラクティブの場合にカーソルを隠すかどうか
+        hideCursorTime: 5000,           // (5000) カーソルを隠すまでのミリ秒
+        dependencies: [],               // ([]) 依存するスクリプトを条件付きで読み込むためのリストを記述する
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ], //@([]) プレゼンテーションのために登録するプラグインオブジェクト
       });
     </script>
     <script src="js/post_main.js"></script>
