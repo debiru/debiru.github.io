@@ -29,6 +29,8 @@
     - [POJ-1082をショートコーディングしてみたよ！ - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220213/poj1082)
 - 2022-02-21
     - [MDN翻訳ステータス一覧](https://mdn.lavoscore.org/)
+- 2022-04-12
+    - [VALUE-DOMAIN に存在していた2種類のドメインハイジャック脆弱性について - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220412/value-domain-hijack)
 
 ### Portfolio
 
