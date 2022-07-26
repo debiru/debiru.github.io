@@ -50,7 +50,7 @@
     - [#2495: HTML挿入で テキストモード→プレビューモード→テキストモード の切り替えを...](https://redmine.openpne.jp/issues/2495#note-2)
 - 2015-07-15
     - [IEでmain要素のwidth, height指定が無視されるのはなぜでしょうか？ \| Google Groups - html5-developers-jp](https://groups.google.com/g/html5-developers-jp/c/niGvn5ffaeM/m/flofjwBqlSQJ)
-- 2022-01 - 2022-02
+- 2022-02-*
     - [MDN Issue - http.headers.Referrer-Policy - Update for "Safari on iOS", Safari and IE](https://github.com/mdn/browser-compat-data/issues/14675)
     - [MDN PullReq -  Referrer-Policy - Update for "Safari on iOS", Safari and IE](https://github.com/mdn/browser-compat-data/pull/15089)
     - [MDN PullReq - SameSite - IE 11 started supporting it on recent Windows 10](https://github.com/mdn/browser-compat-data/pull/15090)
