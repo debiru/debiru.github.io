@@ -13,9 +13,6 @@
     - [お前は table-cell に position: relative できなかった人の数を覚えているのか - @debiru](https://debiru.net/slide/20150830/table-relative/)
 - 2016-04-07
     - [VALUE-DOMAIN に存在していたアカウント乗っ取り可能な CSRF 脆弱性について - debiruはてなメモ](https://debiru.hatenablog.com/entry/20160407/value-domain-csrf)
-- 2019-05-10
-    - [LT資料 - 我々が、DNSの浸透を待つ間に起きている真実](https://debiru.net/dns/20190510.pdf)
-    - [Don't say Propagation - 浸透いうな](https://debiru.net/dns/)
 - 2020-07-02
     - [『人月の神話』新人エンジニアにオススメする技術書 \| IIJ Engineers Blog](https://eng-blog.iij.ad.jp/archives/6144)
 - 2020-12-01
