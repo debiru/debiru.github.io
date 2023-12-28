@@ -28,6 +28,8 @@
     - [MDN翻訳ステータス一覧](https://mdn.lavoscore.org/)
 - 2022-04-12
     - [VALUE-DOMAIN に存在していた2種類のドメインハイジャック脆弱性について - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220412/value-domain-hijack)
+- 2023-12-25
+    - [Ubuntu サーバ構築手順書](https://server.lavoscore.org/)
 
 ### Portfolio
 
