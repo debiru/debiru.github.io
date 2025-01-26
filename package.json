@@ -1,0 +1,21 @@
+{
+  "name": "astro",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "build/build.sh && astro build",
+    "watch": "build/watch.sh",
+    "stylelint": "build/stylelint.sh",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^5.1.7",
+    "glob": "^11.0.1",
+    "js-beautify": "^1.15.1",
+    "sass": "^1.83.4",
+    "stylelint": "^16.13.2",
+    "stylelint-config-standard": "^37.0.0"
+  }
+}

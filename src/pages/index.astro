@@ -1,0 +1,237 @@
+---
+import Layout from '/src/layouts/Layout.astro';
+import Util from '/src/config/Util';
+import { app, args, assets, img, route } from '/src/config/view';
+const pageArgs = {};
+
+const makeItem = (url, label = null) => ({ url, label });
+const linkItems = {
+  specialContents: {
+    '2016-04-07': [
+      makeItem('https://debiru.hatenablog.com/entry/20160407/value-domain-csrf', 'VALUE-DOMAIN に存在していたアカウント乗っ取り可能な CSRF 脆弱性について'),
+    ],
+    '2020-12-01': [
+      makeItem('https://lavoscore.org/assets/file/history-of-web-and-browser.pdf', 'Webの誕生とブラウザの歴史（PDF - 21MB）'),
+    ],
+    '2022-04-12': [
+      makeItem('https://debiru.hatenablog.com/entry/20220412/value-domain-hijack', 'VALUE-DOMAIN に存在していた2種類のドメインハイジャック脆弱性について - debiruはてなメモ'),
+    ],
+    '2023-12-25': [
+      makeItem('https://server.lavoscore.org/', 'Ubuntu サーバ構築手順書'),
+    ],
+    '2023-12-30': [
+      makeItem('https://dns.lavoscore.org/', 'DNS浸透いうな - それは言葉狩りじゃなくて'),
+    ],
+    '2024-07-05': [
+      makeItem('https://url.lavoscore.org/', 'クールな URL の心得 - Knowledge of Cool URLs'),
+    ],
+    '2024-12-17': [
+      makeItem('https://alt.lavoscore.org/', 'alt 属性完全解説 - Master of Alternative Text'),
+    ],
+    '2025-01-02': [
+      makeItem('https://zenn.dev/debiru/books/5f10f2e7ccedd8', 'Laravel 11 + Fortify で BeautifulCode なサイトを構築する'),
+    ],
+    '2025-01-15': [
+      makeItem('https://qiita.com/debiru/items/392d311b28b82361f051', 'GitHub Pages でサイトを公開するまでの手順'),
+    ],
+    '2025-01-19': [
+      makeItem('https://astro.debiru.net/', 'Studying Astro | Astro で作る BeautifulCode なサイト'),
+      makeItem('https://github.com/debiru/astro-sample', 'debiru/astro-sample - GitHub'),
+    ],
+    '2025-01-24': [
+      makeItem('https://qiita.com/debiru/items/6a7f21b92dfbd671ebea', 'Spreadsheet を KVS として使う & JSON API として使うテクニック'),
+    ],
+    '2025-01-26': [
+      makeItem('https://article.lavoscore.org/', '記事執筆による情報発信のススメ - dispatch of information with an article'),
+    ],
+  },
+  contents: {
+    '2015-07-15': [
+      makeItem('https://groups.google.com/g/html5-developers-jp/c/niGvn5ffaeM/m/flofjwBqlSQJ', 'IEでmain要素のwidth, height指定が無視されるのはなぜでしょうか？ | Google Groups - html5-developers-jp'),
+    ],
+    '2015-08-30': [
+      makeItem('/slide/20150830/table-relative/index.html', 'お前は table-cell に position: relative できなかった人の数を覚えているのか'),
+    ],
+    '2019-03 - 2019-05': [
+      makeItem('https://debiru.hatenablog.com/entry/20190322/chomado-rochelle-book', '「マンガでわかる外国人との働き方」が良い本だったので紹介するよ'),
+      makeItem('https://debiru.hatenablog.com/entry/20190412/chomado-rochelle-book-event', '(2019-04-05) 再演版：外国人との英語での働き方講座の参加記'),
+    ],
+    '2020-07-02': [
+      makeItem('https://eng-blog.iij.ad.jp/archives/6144', '『人月の神話』新人エンジニアにオススメする技術書 | IIJ Engineers Blog'),
+    ],
+    '2022-02-10': [
+      makeItem('https://debiru.hatenablog.com/entry/20220210/ocsp', '失効証明書とOCSPの不思議な関係 - debiruはてなメモ'),
+    ],
+    '2022-02-13': [
+      makeItem('https://debiru.hatenablog.com/entry/20220213/poj1082', 'POJ-1082をショートコーディングしてみたよ！ - debiruはてなメモ'),
+    ],
+    '2022-02-25': [
+      makeItem('https://debiru.hatenablog.com/entry/20220225/counter-reset', 'Invalid な HTML のせいで counter-reset の仕様が捻じ曲げられた件'),
+    ],
+    '2022-02-21': [
+      makeItem('https://mdn.lavoscore.org/', 'MDN翻訳ステータス一覧'),
+      makeItem('https://mdn-bcd.lavoscore.org/', 'MDN - BCD一覧表'),
+      makeItem('https://mdn-headings.lavoscore.org/', 'MDN - Headings 一覧表'),
+      makeItem('https://mdn-headings.lavoscore.org/mismatch/', 'MDN - Headings 不一致リスト一覧表'),
+    ],
+    '2022-09-11': [
+      makeItem('https://debiru.hatenablog.com/entry/20220911/tinydns-stops-replying', 'Ubuntu 22.04 で tinydns が応答しなくなる問題'),
+    ],
+    '2023-12-01': [
+      makeItem('https://debiru.hatenablog.com/entry/20231202/mdn-translation-community', 'MDN 翻訳コミュニティで私がやったこと'),
+    ],
+    '2024-06-29': [
+      makeItem('https://docs.google.com/presentation/d/1MRhp-N2KloaG0Rr_vYwPHyeZTsfetpumn0j5d_TLUQo/mobilepresent', 'アクセシビリティは誰のため？'),
+    ],
+    '2024-07-19': [
+      makeItem('https://qiita.com/debiru/items/11f36ad5db5be8a120bc', 'Figma Plugin API を用いた Local Variables Export/Import プラグインの開発'),
+      makeItem('https://www.figma.com/community/plugin/1395633889534142383/local-variables-manipulator', 'Figma Plugin - Local Variables Manipulator'),
+    ],
+    '2024-07-27': [
+      makeItem('https://docs.google.com/presentation/d/1Y1GLa0s3u9X9MhWJI3n8UrkTGcGnLLR-EiyUSvFeXvo/mobilepresent', 'Figma Plugin API を用いた Local Variables Export / Import プラグインの開発'),
+      makeItem('https://docs.google.com/presentation/d/15McWiaZcqyffN0mKB0OQnaSG3ZD5kocjTyNsSwmEHHo/mobilepresent', 'MDN翻訳作業を支えるJSアプリ'),
+    ],
+    '2024-08-12': [
+      makeItem('https://qiita.com/debiru/items/d2e7e5b437b438014113', 'GAS を Clasp + esbuild + TypeScript + Jest + Git 環境で管理・開発する'),
+    ],
+    '2024-09-28': [
+      makeItem('https://debiru.hatenablog.com/entry/20240928/xserver-ns', 'Xserver レンタルサーバーの DNS 管理機能で NS レコードのサブドメイン部分にアンダースコアが使えない話'),
+    ],
+    '2024-10-05': [
+      makeItem('https://docs.google.com/presentation/d/1DWMadqiLfW81UzckmW9I_9C4r21lNgRJd4D7fAPMs7A/mobilepresent', '社内 Slack で「DNS 浸透」と検索した件'),
+      makeItem('https://docs.google.com/presentation/d/1jxhXClCdWDqf2enl1Wpe_kXtnozdpc3AHlz3JK_QpAY/mobilepresent', 'Apple Silicon (arm64) 上で FreeBSD に dug を導入する'),
+    ],
+    '2025-01-23': [
+      makeItem('https://docs.google.com/presentation/d/1MDgyRjkN2MdbwbHcR179fluZvpEnGHmlmcirklpuzZQ/mobilepresent', 'DMM.com での Figma を活用したデザインシステム開発と情報の一元化'),
+    ],
+  },
+  misc: {
+    '(2009) 大学時代のレポート': [
+      makeItem('https://snippet.lavoscore.org/static/text_processing.pdf', 'テキスト処理（Perl）初回課題：FizzBuzz'),
+      makeItem('https://snippet.lavoscore.org/static/text_processing_final.pdf', 'テキスト処理（Perl）最終課題：XML Parser'),
+    ],
+    '(2010 - 2012) OpenPNE 開発コメント': [
+      makeItem('https://redmine.openpne.jp/issues/2440#note-4', '#2440: 携帯版で外部サイトのURLへリダイレクトする処理を記述すると…'),
+      makeItem('https://redmine.openpne.jp/issues/940#note-7', '#940: プロフィール項目の日付やテキストの最小値を最大値より大きくして設定できてしまう'),
+      makeItem('https://redmine.openpne.jp/issues/1193#note-10', '#1193: 確認キーワードを誤入力または未入力の場合にエラーメッセージが表示されない'),
+      makeItem('https://redmine.openpne.jp/issues/1595#note-10', '#1595: ProfileForm で日付型のプロフィール項目の最大値・最小値の入力欄に…'),
+      makeItem('https://redmine.openpne.jp/issues/2000', '#2000: プレビューモードの絵文字パレットの右上にスペースがある'),
+      makeItem('https://redmine.openpne.jp/issues/2008#note-16', '#2008: config/OpenPNE.yml で80番以外のポート番号を含むURLをbase_urlに…'),
+      makeItem('https://redmine.openpne.jp/issues/2106', '#2106: 部分一致検索を行う箇所でワイルドカード検索ができてしまう'),
+      makeItem('https://redmine.openpne.jp/issues/2356', '#2356: 管理画面でプロフィール項目の識別名に全角文字や角括弧が使えてしまう'),
+      makeItem('https://redmine.openpne.jp/issues/2428#note-5', '#2428: プロフィール編集画面にて、最大値制限もしくは最小値制限に違反した場合…'),
+      makeItem('https://redmine.openpne.jp/issues/2495#note-2', '#2495: HTML挿入で テキストモード→プレビューモード→テキストモード の切り替えを…'),
+    ],
+    '(2022 - 2024) MDN - discussions': [
+      makeItem('https://github.com/orgs/mdn/discussions/232', 'Why <h1> should be one per page?'),
+      makeItem('https://github.com/orgs/mdn/discussions/344', 'Is there information on deprecated or obsolete elements and properties in MDN?'),
+      makeItem('https://github.com/orgs/mdn/discussions/353', 'What are inline elements and block-level elements?'),
+      makeItem('https://github.com/orgs/mdn/discussions/365', 'Why is the button element used for language switching in MDN?'),
+      makeItem('https://github.com/orgs/mdn/discussions/387', 'Translation of IDs of headings'),
+      makeItem('https://github.com/orgs/mdn/discussions/470', 'I would like to know the history of MDN'),
+      makeItem('https://github.com/orgs/mdn/discussions/472', 'Suggestion: How about setting og:image in the MDN document on a per-page basis?'),
+      makeItem('https://github.com/orgs/mdn/discussions/693', 'Mechanisms to automate translation of heading words'),
+    ],
+  },
+};
+const generateAnchor = (item) => {
+  return Util.sprintf('<a href="%s" target="_blank">%s</a>', Util.HTML.escape(item.url), Util.HTML.escape(item.label));
+};
+const getLinkItems = (category) => {
+  const linkItemsArray = Object.entries(linkItems[category]);
+  linkItemsArray.sort((a, b) => {
+    if (a[0] < b[0]) return 1;
+    if (a[0] > b[0]) return -1;
+    return 0;
+  });
+  return linkItemsArray;
+};
+---
+
+<Layout args={pageArgs}>
+  <div class="content-inner">
+    <section class="profileArea">
+      <div class="sectionHeader">
+        <h2>Profile</h2>
+      </div>
+      <div class="sectionBody">
+        <div class="profileImage">
+          <p><img src={ img('global/takai-minoru-480x640.jpg') } alt="高井 実の顔写真。晴れた空の下、黒一色の服装で公園の鉄棒の上に跨って手前側を見ている。" width="240" height="320"></p>
+        </div>
+        <div class="profileInfo">
+          <dl>
+            <div class="di">
+              <dt>Author Name</dt>
+              <dd>高井 実 - Takai Minoru</dd>
+            </div>
+            <div class="di">
+              <dt>Twitter (X)</dt>
+              <dd><a href="https://x.com/debiru_R" target="_blank">@debiru_R</a></dd>
+            </div>
+            <div class="di">
+              <dt>GitHub</dt>
+              <dd><a href="https://github.com/debiru/" target="_blank">https://github.com/debiru/</a></dd>
+            </div>
+            <div class="di">
+              <dt>Blog</dt>
+              <dd><a href="http://debiru.hatenablog.com/" target="_blank">http://debiru.hatenablog.com/</a></dd>
+            </div>
+            <div class="di">
+              <dt>Website</dt>
+              <dd>
+                <ul>
+                  <li><a href="https://debiru.net/" target="_blank">https://debiru.net/</a></li>
+                  <li><a href="https://lavoscore.org/" target="_blank">https://lavoscore.org/</a></li>
+                </ul>
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+    <div class="sectionsArea">
+      <section class="specialContentsArea">
+        <div class="sectionHeader">
+          <h2>Special Contents</h2>
+        </div>
+        <div class="sectionBody">
+          <ul>{ getLinkItems('specialContents').map(([key, array]) => <Fragment>
+            <li><span class="dateLabel">{key}</span>
+              <ul>{ array.map((item) => <Fragment>
+                <li set:html={generateAnchor(item)} /></Fragment>) }
+              </ul>
+            </li></Fragment>) }
+          </ul>
+        </div>
+      </section>
+      <section class="contentsArea">
+        <div class="sectionHeader">
+          <h2>Contents</h2>
+        </div>
+        <div class="sectionBody">
+          <ul>{ getLinkItems('contents').map(([key, array]) => <Fragment>
+            <li><span class="dateLabel">{key}</span>
+              <ul>{ array.map((item) => <Fragment>
+                <li set:html={generateAnchor(item)} /></Fragment>) }
+              </ul>
+            </li></Fragment>) }
+          </ul>
+        </div>
+      </section>
+      <section class="miscArea">
+        <div class="sectionHeader">
+          <h2>Misc</h2>
+        </div>
+        <div class="sectionBody">
+          <ul>{ getLinkItems('misc').map(([key, array]) => <Fragment>
+            <li><span class="dateLabel">{key}</span>
+              <ul>{ array.map((item) => <Fragment>
+                <li set:html={generateAnchor(item)} /></Fragment>) }
+              </ul>
+            </li></Fragment>) }
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+</Layout>

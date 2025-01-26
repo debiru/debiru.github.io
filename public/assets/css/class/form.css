@@ -1,0 +1,152 @@
+:root {
+  --mod-FormPanel-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1), 0 -2px 4px -2px rgb(0 0 0 / .1), -2px 0 4px -2px rgb(0 0 0 / .1);
+}
+
+.mod-AuthForm:not(:first-child) {
+  margin-top: 40px;
+}
+.mod-AuthForm .pageName {
+  text-align: center;
+  font-family: var(--fontNotoSerifJP);
+  font-size: 3rem;
+}
+.mod-AuthForm .formFields .di {
+  margin-top: 20px;
+}
+.mod-AuthForm .formFields .labelBlock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+.mod-AuthForm .formFields .labelBlock .badge {
+  display: inline-block;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: #ccc;
+  line-height: 1;
+  font-size: 1rem;
+}
+.mod-AuthForm .formFields .labelBlock .badge.required {
+  background: #fee;
+  color: #c00;
+}
+.mod-AuthForm .formFields .descriptionBlock {
+  margin-top: 4px;
+  color: #666;
+  font-size: 1.2rem;
+}
+.mod-AuthForm .formFields .errorBlock {
+  margin-top: 4px;
+  color: #900;
+}
+.mod-AuthForm .formFields .errorBlock:empty {
+  display: none;
+}
+.mod-AuthForm .formFields .errorBlock .errorMessages li {
+  font-size: 1.2rem;
+}
+.mod-AuthForm .formFields .errorBlock p {
+  font-size: 1.2rem;
+}
+.mod-AuthForm .formFields .fieldBlock {
+  margin-top: 4px;
+}
+.mod-AuthForm .formFields .fieldBlock :is(input[type=text], input[type=password], input[type=date], input[type=datetime-local], input[type=time], input[type=email], textarea) {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.mod-AuthForm .formFields .fieldBlock :is(input[type=text], input[type=password], input[type=date], input[type=datetime-local], input[type=time], input[type=email], textarea):focus {
+  border-color: transparent;
+  outline: 2px solid var(--primaryLightColor);
+}
+.mod-AuthForm .formFields .fieldBlock .items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+.mod-AuthForm .formFields .fieldBlock .items li label {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.mod-AuthForm .formFields .contentBlock p {
+  width: fit-content;
+  margin-top: 4px;
+  margin-left: auto;
+  font-size: 1.3rem;
+}
+.mod-AuthForm .helperTextBlock {
+  margin-top: 10px;
+  font-size: 1.3rem;
+}
+.mod-AuthForm .helperTextBlock ul li {
+  width: fit-content;
+  margin-left: auto;
+}
+.mod-AuthForm .messageBlock {
+  margin-top: 10px;
+  font-size: 1.5rem;
+}
+.mod-AuthForm .messageBlock p:not(:first-child) {
+  margin-top: 4px;
+}
+.mod-AuthForm .self-dependence {
+  margin-block: 40px;
+}
+.mod-AuthForm .formButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+.mod-AuthForm .formButtons:has(#form-contact-submit p) {
+  justify-content: flex-start;
+}
+.mod-AuthForm .formButtons li {
+  line-height: 1;
+}
+.mod-AuthForm .formButtons li a {
+  display: inline-block;
+  vertical-align: top;
+  font-size: 1.2rem;
+}
+.mod-AuthForm .formButtons li a:hover {
+  text-decoration: none;
+}
+.mod-AuthForm .formButtons li button {
+  padding: 10px 14px;
+  background: var(--primaryColor);
+  color: #fff;
+}
+.mod-AuthForm .formButtons li button:hover {
+  opacity: 0.9;
+}
+.mod-AuthForm .formButtons li button:disabled {
+  background: #ccc;
+  color: #666;
+  opacity: 0.5;
+}
+.mod-AuthForm .formButtons li#form-verification-submit button {
+  background: var(--secondaryColor);
+  color: #000;
+}
+
+.mod-FormPanel {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: var(--mod-FormPanel-shadow);
+}

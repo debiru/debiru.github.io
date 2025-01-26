@@ -1,0 +1,32 @@
+@use 'sass:list';
+
+@function implode($list, $separator: ', ') {
+  $string: '';
+  @for $i from 1 through list.length($list) {
+    $item: #{list.nth($list, $i)};
+    $string: $string + if($i == 1, '', $separator) + $item;
+  }
+  @return $string;
+}
+
+@function input_selector_part($list) {
+  $new-list: ();
+  @each $item in $list {
+    $new-item: '';
+    @if $item == 'textarea' {
+      $new-item: $item;
+    }
+    @else {
+      $new-item: 'input[type="' + $item + '"]';
+    }
+    $new-list: list.append($new-list, $new-item);
+  }
+  @return $new-list;
+}
+
+@function input_selector($inputTypes) {
+  @return ':is(' + implode(input_selector_part($inputTypes)) + ')';
+}
+
+$inputField: input_selector((text, password, date, datetime-local, time, email, textarea));
+$inputItems: input_selector((checkbox, radio));

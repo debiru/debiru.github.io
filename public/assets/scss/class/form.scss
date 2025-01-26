@@ -1,0 +1,181 @@
+@use "../global/vars";
+
+:root {
+  --mod-FormPanel-shadow: 0 4px 6px -1px rgb(0 0 0 / .1), 0 2px 4px -2px rgb(0 0 0 / .1), 0 -2px 4px -2px rgb(0 0 0 / .1), -2px 0 4px -2px rgb(0 0 0 / .1);
+}
+
+.mod-AuthForm {
+  &:not(:first-child) {
+    margin-top: 40px;
+  }
+  .pageName {
+    text-align: center;
+    font-family: var(--fontNotoSerifJP);
+    font-size: 3rem;
+  }
+  .formFields {
+    .di {
+      margin-top: 20px;
+    }
+    .labelBlock {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      font-size: 1.3rem;
+
+      .badge {
+        display: inline-block;
+        padding: 2px 4px;
+        border-radius: 4px;
+        background: #ccc;
+        line-height: 1;
+        font-size: 1rem;
+
+        &.required {
+          background: #fee;
+          color: #c00;
+        }
+      }
+    }
+    .descriptionBlock {
+      margin-top: 4px;
+      color: #666;
+      font-size: 1.2rem;
+    }
+    .errorBlock {
+      margin-top: 4px;
+      color: #900;
+
+      &:empty {
+        display: none;
+      }
+      .errorMessages {
+        li {
+          font-size: 1.2rem;
+        }
+      }
+      p {
+        font-size: 1.2rem;
+      }
+    }
+    .fieldBlock {
+      margin-top: 4px;
+
+      #{vars.$inputField} {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+
+        &:focus {
+          border-color: transparent;
+          outline: 2px solid var(--primaryLightColor);
+        }
+      }
+      .items {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 12px;
+
+        li {
+          label {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+        }
+      }
+    }
+    .contentBlock {
+      p {
+        width: fit-content;
+        margin-top: 4px;
+        margin-left: auto;
+        font-size: 1.3rem;
+      }
+    }
+  }
+  .helperTextBlock {
+    margin-top: 10px;
+    font-size: 1.3rem;
+
+    ul {
+      li {
+        width: fit-content;
+        margin-left: auto;
+      }
+    }
+  }
+  .messageBlock {
+    margin-top: 10px;
+    font-size: 1.5rem;
+
+    p:not(:first-child) {
+      margin-top: 4px;
+    }
+  }
+  .self-dependence {
+    margin-block: 40px;
+  }
+  .formButtons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+
+    &:has(#form-contact-submit p) {
+      justify-content: flex-start;
+    }
+    li {
+      line-height: 1;
+
+      a {
+        display: inline-block;
+        vertical-align: top;
+        font-size: 1.2rem;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      button {
+        padding: 10px 14px;
+        background: var(--primaryColor);
+        color: #fff;
+
+        &:hover {
+          opacity: 0.9;
+        }
+        &:disabled {
+            background: #ccc;
+            color: #666;
+            opacity: 0.5;
+        }
+      }
+
+      &#form-verification-submit {
+        button {
+          background: var(--secondaryColor);
+          color: #000;
+        }
+      }
+    }
+  }
+}
+
+.mod-FormPanel {
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 20px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: var(--mod-FormPanel-shadow);
+}
