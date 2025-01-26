@@ -1,9 +1,9 @@
 import Util from '/src/config/Util';
 
 export const args = {
-  siteName: 'Studying Astro',
-  titleSuffix: 'Astro で作る BeautifulCode なサイト',
-  description: 'Astro の学習ノートです',
+  siteName: 'debiru.net',
+  titleSuffix: 'debiru\'s portfolio',
+  description: 'debiru\'s portfolio',
   twitter: '@debiru_R',
 };
 
