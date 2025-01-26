@@ -30,6 +30,13 @@
     - [VALUE-DOMAIN に存在していた2種類のドメインハイジャック脆弱性について - debiruはてなメモ](https://debiru.hatenablog.com/entry/20220412/value-domain-hijack)
 - 2023-12-25
     - [Ubuntu サーバ構築手順書](https://server.lavoscore.org/)
+- 2023-12-30
+    - [DNS浸透いうな - それは言葉狩りじゃなくて](https://dns.lavoscore.org/)
+- 2024-07-05
+    - [クールな URL の心得 - Knowledge of Cool URLs](https://url.lavoscore.org/)
+- 2024-07-19
+    - [Figma Plugin API を用いた Local Variables Export/Import プラグインの開発](https://qiita.com/debiru/items/11f36ad5db5be8a120bc)
+    - [Figma Plugin - Local Variables Manipulator](https://www.figma.com/community/plugin/1395633889534142383/local-variables-manipulator)
 
 ### Portfolio
 
