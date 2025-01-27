@@ -155,37 +155,110 @@ const getLinkItems = (category) => {
         <h2>Profile</h2>
       </div>
       <div class="sectionBody">
-        <div class="profileImage">
-          <p><img src={ img('global/takai-minoru-480x640.jpg') } alt="高井 実の顔写真。晴れた空の下、黒一色の服装で公園の鉄棒の上に跨って手前側を見ている。" width="240" height="320"></p>
+        <div class="profileBlock">
+          <div class="profileImage">
+            <p><img src={ img('global/takai-minoru-480x640.jpg') } alt="高井 実の顔写真。晴れた空の下、黒一色の服装で公園の鉄棒の上に跨って手前側を見ている。" width="240" height="320"></p>
+          </div>
+          <div class="profileInfo">
+            <dl>
+              <div class="di">
+                <dt>Author Name</dt>
+                <dd>高井 実 - Takai Minoru</dd>
+              </div>
+              <div class="di">
+                <dt>Twitter (X)</dt>
+                <dd><a href="https://x.com/debiru_R" target="_blank">@debiru_R</a></dd>
+              </div>
+              <div class="di">
+                <dt>GitHub</dt>
+                <dd><a href="https://github.com/debiru/" target="_blank">https://github.com/debiru/</a></dd>
+              </div>
+              <div class="di">
+                <dt>Blog</dt>
+                <dd><a href="http://debiru.hatenablog.com/" target="_blank">http://debiru.hatenablog.com/</a></dd>
+              </div>
+              <div class="di">
+                <dt>Website</dt>
+                <dd>
+                  <ul>
+                    <li><a href="https://debiru.net/" target="_blank">https://debiru.net/</a></li>
+                    <li><a href="https://lavoscore.org/" target="_blank">https://lavoscore.org/</a></li>
+                  </ul>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
-        <div class="profileInfo">
-          <dl>
-            <div class="di">
-              <dt>Author Name</dt>
-              <dd>高井 実 - Takai Minoru</dd>
+        <div class="profileDetails">
+          <section class="selfIntroductionArea">
+            <div class="sectionHeader">
+              <h3>Self Introduction</h3>
             </div>
-            <div class="di">
-              <dt>Twitter (X)</dt>
-              <dd><a href="https://x.com/debiru_R" target="_blank">@debiru_R</a></dd>
+            <div class="sectionBody">
+              <p>高井 実（たかい みのる）。1987年生まれ。東京都豊島区で生まれ育つ。</p>
+              <p>趣味は、HTML, 数学, 将棋観戦, ダーツ, RTA鑑賞。数学や論理的思考が好きで、幼少期からワープロや MS-DOS で遊んでいた。小学生時代にウェブサイト作成に触れたのをきっかけに HTML, CSS に興味を持ち、その仕様や Web ブラウザの特性、HTML の本質について考察を続けている。</p>
+              <p>専修大学ネットワーク情報学部卒。大学在籍時は国際大学対抗プログラミングコンテスト（ICPC）に学部選抜チームとして3年間参加し、アジア地区予選 日本大会の他、台湾大会に自主参加した。Web アプリケーション開発（PHP）、システム設計（UML）、プロジェクト管理手法（PMBOK）、セキュリティに関する知識を活かして Web エンジニアとして活動している。</p>
+              <p>得意な技術領域は、Web サーバー構築（Ubuntu, Apache）、ドメイン名 / DNS 管理、PHP 開発（Laravel + Fortify）、HTML, Web アクセシビリティ, CSS, JavaScript (Vanilla)、Astro + GitHub Pages + Spreadsheet GAS など。</p>
             </div>
-            <div class="di">
-              <dt>GitHub</dt>
-              <dd><a href="https://github.com/debiru/" target="_blank">https://github.com/debiru/</a></dd>
+          </section>
+          <section class="professionalExperienceArea">
+            <div class="sectionHeader">
+              <h3>Professional Experience</h3>
             </div>
-            <div class="di">
-              <dt>Blog</dt>
-              <dd><a href="http://debiru.hatenablog.com/" target="_blank">http://debiru.hatenablog.com/</a></dd>
+            <div class="sectionBody">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="date">年月</th>
+                    <th class="body">内容</th>
+                    <th class="note">補足</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="date">2006年4月</td>
+                    <td class="body">専修大学ネットワーク情報学部 入学</td>
+                    <td class="note"></td>
+                  </tr>
+                  <tr>
+                    <td class="date">2007年12月</td>
+                    <td class="body">株式会社手嶋屋 アルバイト勤務開始</td>
+                    <td class="note">大学2年次から、2年4ヶ月間</td>
+                  </tr>
+                  <tr>
+                    <td class="date">2010年3月</td>
+                    <td class="body">専修大学ネットワーク情報学部 卒業</td>
+                    <td class="note"></td>
+                  </tr>
+                  <tr>
+                    <td class="date">2010年4月</td>
+                    <td class="body">株式会社手嶋屋 入社<br>（開発部）</td>
+                    <td class="note">2年間</td>
+                  </tr>
+                  <tr>
+                    <td class="date">2012年4月</td>
+                    <td class="body">株式会社カヤック 入社<br>（HTMLファイ部）</td>
+                    <td class="note">2年5ヶ月間</td>
+                  </tr>
+                  <tr>
+                    <td class="date">2014年9月</td>
+                    <td class="body">株式会社ニード 入社<br>（フロントエンドエンジニア）</td>
+                    <td class="note">4年4ヶ月間</td>
+                  </tr>
+                  <tr>
+                    <td class="date">2019年2月</td>
+                    <td class="body">株式会社インターネットイニシアティブ 入社<br>（ネットワークシステム開発部門）</td>
+                    <td class="note">2年間</td>
+                  </tr>
+                  <tr>
+                    <td class="date">2024年2月</td>
+                    <td class="body">合同会社DMM.com 入社<br>（デザインシステム開発チーム）</td>
+                    <td class="note">在籍中</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
-            <div class="di">
-              <dt>Website</dt>
-              <dd>
-                <ul>
-                  <li><a href="https://debiru.net/" target="_blank">https://debiru.net/</a></li>
-                  <li><a href="https://lavoscore.org/" target="_blank">https://lavoscore.org/</a></li>
-                </ul>
-              </dd>
-            </div>
-          </dl>
+          </section>
         </div>
       </div>
     </section>

@@ -26,7 +26,26 @@ body {
 }
 
 table {
+  width: fit-content;
+  margin-inline: auto;
+  border-collapse: separate;
+  border-width: 1px 0 0 1px;
+  border-style: solid;
+  border-color: #999;
   overflow-wrap: break-word;
+}
+table :is(th, td) {
+  padding: 4px 8px;
+  border-width: 0 1px 1px 0;
+  border-style: solid;
+  border-color: #999;
+}
+table thead th {
+  background: #ddd;
+}
+table th {
+  text-align: center;
+  font-weight: bold;
 }
 
 a {
@@ -207,10 +226,17 @@ code.email {
   font-weight: bold;
   font-size: 3.2rem;
 }
+#page-main section .sectionHeader h3 {
+  color: #900;
+  line-height: 1;
+  font-family: var(--fontNotoSerifJP);
+  font-weight: bold;
+  font-size: 2.8rem;
+}
 #page-main section .sectionBody {
   margin-top: 10px;
 }
-#page-main section.profileArea .sectionBody {
+#page-main section.profileArea .sectionBody .profileBlock {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -227,6 +253,23 @@ code.email {
 }
 #page-main section.profileArea .sectionBody .profileInfo dl dd {
   font-size: 1.6rem;
+}
+#page-main section.profileArea .profileDetails {
+  max-width: 640px;
+  margin-top: 30px;
+  margin-inline: auto;
+}
+#page-main section.profileArea .profileDetails section:not(:first-child) {
+  margin-top: 30px;
+}
+#page-main section.profileArea .profileDetails section .sectionBody > *:not(:first-child) {
+  margin-top: 8px;
+}
+#page-main section.profileArea .profileDetails section.professionalExperienceArea table {
+  font-size: 1.4rem;
+}
+#page-main section.profileArea .profileDetails section.professionalExperienceArea table .date {
+  white-space: nowrap;
 }
 #page-main .sectionsArea {
   display: grid;

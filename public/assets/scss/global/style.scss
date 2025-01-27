@@ -29,7 +29,29 @@ body {
 }
 
 table {
+  width: fit-content;
+  margin-inline: auto;
+  border-collapse: separate;
+  border-width: 1px 0 0 1px;
+  border-style: solid;
+  border-color: #999;
   overflow-wrap: break-word;
+
+  :is(th, td) {
+    padding: 4px 8px;
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    border-color: #999;
+  }
+  thead {
+    th {
+      background: #ddd;
+    }
+  }
+  th {
+    text-align: center;
+    font-weight: bold;
+  }
 }
 
 a {
@@ -231,6 +253,13 @@ code {
         font-weight: bold;
         font-size: 3.2rem;
       }
+      h3 {
+        color: #900;
+        line-height: 1;
+        font-family: var(--fontNotoSerifJP);
+        font-weight: bold;
+        font-size: 2.8rem;
+      }
     }
     .sectionBody {
       margin-top: 10px;
@@ -238,12 +267,13 @@ code {
 
     &.profileArea {
       .sectionBody {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 10px 20px;
-
+        .profileBlock {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          align-items: center;
+          gap: 10px 20px;
+        }
         .profileInfo {
           dl {
             .di {
@@ -258,6 +288,29 @@ code {
             }
             dd {
               font-size: 1.6rem;
+            }
+          }
+        }
+      }
+      .profileDetails {
+        max-width: 640px;
+        margin-top: 30px;
+        margin-inline: auto;
+
+        section {
+          &:not(:first-child) {
+            margin-top: 30px;
+          }
+          .sectionBody > *:not(:first-child) {
+            margin-top: 8px;
+          }
+          &.professionalExperienceArea {
+            table {
+              font-size: 1.4rem;
+
+              .date {
+                white-space: nowrap;
+              }
             }
           }
         }
