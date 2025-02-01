@@ -268,16 +268,12 @@ const getLinkItems = (category) => {
           <h2>Special Contents</h2>
         </div>
         <div class="sectionBody">
-          <ul>
-            { getLinkItems('specialContents').map(([key, array]) => (
-              <li><span class="dateLabel">{key}</span>
-                <ul>
-                  { array.map((item) => (
-                    <li set:html={generateAnchor(item)} />
-                  ))}
-                </ul>
-              </li>
-            ))}
+          <ul>{ getLinkItems('specialContents').map(([key, array]) => <Fragment>
+            <li><span class="dateLabel">{key}</span>
+              <ul>{ array.map((item) => <Fragment>
+                <li set:html={generateAnchor(item)} /></Fragment>) }
+              </ul>
+            </li></Fragment>) }
           </ul>
         </div>
       </section>
@@ -286,16 +282,12 @@ const getLinkItems = (category) => {
           <h2>Contents</h2>
         </div>
         <div class="sectionBody">
-          <ul>
-            { getLinkItems('contents').map(([key, array]) => (
-              <li><span class="dateLabel">{key}</span>
-                <ul>
-                  { array.map((item) => (
-                    <li set:html={generateAnchor(item)} />
-                  ))}
-                </ul>
-              </li>
-            ))}
+          <ul>{ getLinkItems('contents').map(([key, array]) => <Fragment>
+            <li><span class="dateLabel">{key}</span>
+              <ul>{ array.map((item) => <Fragment>
+                <li set:html={generateAnchor(item)} /></Fragment>) }
+              </ul>
+            </li></Fragment>) }
           </ul>
         </div>
       </section>
@@ -304,16 +296,12 @@ const getLinkItems = (category) => {
           <h2>Misc</h2>
         </div>
         <div class="sectionBody">
-          <ul>
-            { getLinkItems('misc').map(([key, array]) => (
-              <li><span class="dateLabel">{key}</span>
-                <ul>
-                  { array.map((item) => (
-                    <li set:html={generateAnchor(item)} />
-                  ))}
-                </ul>
-              </li>
-            ))}
+          <ul>{ getLinkItems('misc').map(([key, array]) => <Fragment>
+            <li><span class="dateLabel">{key}</span>
+              <ul>{ array.map((item) => <Fragment>
+                <li set:html={generateAnchor(item)} /></Fragment>) }
+              </ul>
+            </li></Fragment>) }
           </ul>
         </div>
       </section>
