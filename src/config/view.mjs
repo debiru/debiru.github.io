@@ -26,8 +26,13 @@ export const app = {
   },
 };
 
+export const rootPath = (path) => {
+  path = '/' + Util.ltrim(path);
+  return path;
+};
+
 export const assets = (path, cacheBuster = false) => {
-  path = '/assets/' + Util.ltrim(path);
+  path = rootPath('assets/' + Util.ltrim(path));
   if (cacheBuster) path += '?' + Date.now();
   return path;
 };
@@ -41,5 +46,5 @@ export const img = (path) => {
 };
 
 export const route = (path) => {
-  return '/' + Util.ltrim(path);
+  return rootPath(path);
 };
