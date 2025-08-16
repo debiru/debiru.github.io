@@ -317,6 +317,10 @@ code {
       }
     }
   }
+  .sectionsHeader {
+    margin-top: 40px;
+    text-align: center;
+  }
   .sectionsArea {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
