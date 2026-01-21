@@ -11,11 +11,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^5.14.5",
-    "glob": "^11.0.3",
+    "astro": "^5.16.11",
+    "glob": "^13.0.0",
     "js-beautify": "^1.15.4",
-    "sass": "^1.93.2",
-    "stylelint": "^16.25.0",
-    "stylelint-config-standard": "^39.0.1"
+    "sass": "^1.97.2",
+    "stylelint": "^17.0.0",
+    "stylelint-config-standard": "^40.0.0"
   }
 }
