@@ -4,7 +4,7 @@
   $string: '';
   @for $i from 1 through list.length($list) {
     $item: #{list.nth($list, $i)};
-    $string: $string + if($i == 1, '', $separator) + $item;
+    $string: $string + if(sass($i == 1): ''; else: $separator) + $item;
   }
   @return $string;
 }
